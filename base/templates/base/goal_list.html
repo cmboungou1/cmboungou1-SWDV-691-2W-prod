@@ -1,0 +1,47 @@
+{% extends "base/main.html" %}
+{% block content%}
+
+<div class="header-bar">
+    <div>
+        <h1>Hello {{request.user|title}}</h1>
+        <h3 style="margin:0">You have <i>{{count}}</i> incomplete goal{{count|pluralize:"s"}} </h3>
+    </div>
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'logout'%}">Logout</a>
+    {% else %}
+    <a href="{% url 'login' %}">Login</a>
+    {% endif %} 
+</div>
+
+<div id="search-add-wrapper">
+    <form method="GET" style="margin-top: 20px; display: flex;">
+        <input type="text" name="search-area" value="{{search_input}}">
+        <input class="button" type="submit" value="search">
+    </form>
+    <a id="add-link" href="{% url 'goal-create' %}"><p class="add-label">Add Goal</p>&#x2b;</a>
+</div>
+
+<div class="goal-items-wrapper">
+    {% for goal in goals %}
+    <div class="goal-wrapper">
+        {% if goal.complete %}
+            <div class="goal-title">
+                <div class="goal-complete-icon"></div>
+                <i><s><a href="{% url 'goal-update' goal.id %}">{{goal}}</a></s></i>
+            </div>
+        <a class="delete-link" href="{% url 'goal-delete' goal.id %}"><p class="delete-label">Delete</p>&#215;</a>
+        {% else %} 
+        <div class="goal-title">
+            <div class="goal-incomplete-icon"></div>
+            <a href="{% url 'goal-update' goal.id %}">{{goal}}</a>
+        </div>  
+        <a class="delete-link" href="{% url 'goal-delete' goal.id %}"><p class="delete-label">Delete</p>&#215;</a>         
+        {% endif%}
+        
+    </div>
+    {% empty %}
+    <h3>No items in list</h3>
+    {% endfor %}
+</div>
+
+{% endblock content %}
