@@ -3,7 +3,8 @@ from multiprocessing import context
 from pydoc import describe
 from pyexpat import model
 from re import template
-from turtle import title
+
+# from turtle import title
 from django.shortcuts import redirect, render
 from django.views.generic.list import ListView
 
