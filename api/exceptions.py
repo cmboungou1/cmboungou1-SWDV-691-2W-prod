@@ -6,6 +6,6 @@ def my_exception_handler(exc, context):
     response = exception_handler(exc, context)
     if response is not None:
         response.data["message"] = str(exc)
-        #response.data["results"] = None
+        response.data["results"] = exc.get_full_details()
         #del response.data["detail"]
     return response
