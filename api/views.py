@@ -27,7 +27,7 @@ def goalList(request):
 	return Response(serializer.data)
 
 @api_view(['GET'])
-def goalDetail(request, pk):
+def goalDetail(request, pk): 
 	goals = Goal.objects.get(id=pk)
 	serializer = GoalSerializer(goals, many=False)
 	return Response(serializer.data)
