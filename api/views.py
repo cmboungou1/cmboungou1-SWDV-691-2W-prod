@@ -40,7 +40,7 @@ def goalDetail(request, pk):
     }
     goals = Goal.objects.get(id=pk)
     serializer = GoalSerializer(goals, many=False)    
-    return Response(serializer.data) if pk else Response(message)
+    return Response(serializer.data) if goals else Response(message)
 
 @api_view(['POST'])
 def goalCreate(request):
