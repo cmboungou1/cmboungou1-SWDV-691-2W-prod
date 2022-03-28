@@ -51,7 +51,7 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-    'EXCEPTION_HANDLER': 'goal_setter.api.exceptions.my_exception_handler'
+    'EXCEPTION_HANDLER': 'api.exceptions.my_exception_handler'
 }
 
 MIDDLEWARE = [
