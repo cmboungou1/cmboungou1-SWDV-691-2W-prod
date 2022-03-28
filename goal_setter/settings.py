@@ -50,9 +50,6 @@ INSTALLED_APPS = [
     "rest_framework",
 ]
 
-REST_FRAMEWORK = {
-    'EXCEPTION_HANDLER': 'api.exceptions.my_exception_handler'
-}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

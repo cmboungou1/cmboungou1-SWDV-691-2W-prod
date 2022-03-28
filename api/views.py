@@ -22,9 +22,17 @@ def apiOverview(request):
 
 @api_view(['GET'])
 def goalList(request):
-	goals = Goal.objects.all().order_by('-id')
-	serializer = GoalSerializer(goals, many=True)
-	return Response(serializer.data)
+    try:
+        goals = Goal.objects.all().order_by('-id')
+        serializer = GoalSerializer(goals, many=True)
+        return Response(serializer.data)
+    except:
+        message = {
+            "code":"404",
+            "message":"User record not found.",
+        }
+        Response.status_code = 404
+        return Response(message)
 
 # @api_view(['GET'])
 # def goalDetail(request, pk): 
@@ -36,42 +44,62 @@ def goalList(request):
 def goalDetail(request, pk):
     try:
         goals = Goal.objects.get(id=pk)
-        print("Chrissss"+str(goals))
         serializer = GoalSerializer(goals, many=False)       
         return Response(serializer.data)
     except:
         message = {
             "code":"404",
-            "message":"invalid id",
-        } 
+            "message":"User record not found.",
+        }
+        Response.status_code = 404
         return Response(message)
 
 @api_view(['POST'])
 def goalCreate(request):
-	serializer = GoalSerializer(data=request.data)
-
-	if serializer.is_valid():
-		serializer.save()
-
-	return Response(serializer.data)
+    try:
+        serializer = GoalSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data)
+    except:
+        message = {
+            "code":"400",
+            "message":"Goal could not be created.",
+        }
+        Response.status_code = 400
+        return Response(message)    
 
 @api_view(['POST'])
 def goalUpdate(request, pk):
-	goal = Goal.objects.get(id=pk)
-	serializer = GoalSerializer(instance=goal, data=request.data)
+    try:
+        goal = Goal.objects.get(id=pk)
+        serializer = GoalSerializer(instance=goal, data=request.data)
 
-	if serializer.is_valid():
-		serializer.save()
-
-	return Response(serializer.data)
-
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data)
+    except:
+        message = {
+            "code":"400",
+            "message":"Goal could not be Updated.",
+        }
+        Response.status_code = 400
+        return Response(message) 
 
 @api_view(['DELETE'])
 def goalDelete(request, pk):
-	goal = Goal.objects.get(id=pk)
-	goal.delete()
+    try:
+        goal = Goal.objects.get(id=pk)
+        goal.delete()
 
-	return Response('Item succsesfully delete!')
+        return Response('Item succsesfully delete!')
+    except:
+        message = {
+            "code":"400",
+            "message":"Id does not exsit.",
+        }
+        Response.status_code = 400
+        return Response(message) 
 
 
 
