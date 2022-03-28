@@ -5,7 +5,6 @@ def my_exception_handler(exc, context):
     # to get the standard error response.
     response = exception_handler(exc, context)
     if response is not None:
-        response.data["message"] = str(exc)
-        response.data["results"] = exc.get_full_details()
+        response.data['status_code'] = response.status_code
         #del response.data["detail"]
     return response
