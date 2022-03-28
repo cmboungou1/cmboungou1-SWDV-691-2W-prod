@@ -35,12 +35,13 @@ def goalList(request):
 @api_view(['GET'])
 def goalDetail(request, pk):
     goals = Goal.objects.get(id=pk)
+    serializer = GoalSerializer(goals, many=False)  
     message = {
         "code":"404",
         "message":"invalid id",
-        "goals":goals
+        "goals":serializer.data
     }
-    serializer = GoalSerializer(goals, many=False)    
+      
     #return Response(serializer.data) if goals else Response(message)
     return Response(message)
 
