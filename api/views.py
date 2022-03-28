@@ -25,6 +25,7 @@ def goalList(request):
     try:
         goals = Goal.objects.all().order_by('-id')
         serializer = GoalSerializer(goals, many=True)
+        Response.status_code = 200
         return Response(serializer.data)
     except:
         message = {
@@ -44,7 +45,8 @@ def goalList(request):
 def goalDetail(request, pk):
     try:
         goals = Goal.objects.get(id=pk)
-        serializer = GoalSerializer(goals, many=False)       
+        serializer = GoalSerializer(goals, many=False)
+        Response.status_code = 200       
         return Response(serializer.data)
     except:
         message = {
@@ -59,8 +61,10 @@ def goalCreate(request):
     try:
         serializer = GoalSerializer(data=request.data)
         if serializer.is_valid():
+            Response.status_code = 200
             serializer.save()
-        Response.status_code = 200
+        else:
+            Response.status_code = 404
         return Response(serializer.data)
     except:
         message = {
@@ -78,6 +82,7 @@ def goalUpdate(request, pk):
 
         if serializer.is_valid():
             serializer.save()
+        Response.status_code = 200
         return Response(serializer.data)
     except:
         message = {
@@ -92,7 +97,7 @@ def goalDelete(request, pk):
     try:
         goal = Goal.objects.get(id=pk)
         goal.delete()
-
+        Response.status_code = 200
         return Response('Item succsesfully delete!')
     except:
         message = {
