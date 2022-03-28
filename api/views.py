@@ -34,16 +34,17 @@ def goalList(request):
 
 @api_view(['GET'])
 def goalDetail(request, pk):
-    goals = Goal.objects.get(id=pk)
-    print(goals)
-    serializer = GoalSerializer(goals, many=False)  
-    message = {
-        "code":"404",
-        "message":"invalid id",
-        "goals":serializer.data
-    }      
-    #return Response(serializer.data) if goals else Response(message)
-    return Response(message)
+    try:
+        goals = Goal.objects.get(id=pk)
+        print("Chrissss"+str(goals))
+        serializer = GoalSerializer(goals, many=False)       
+        return Response(serializer.data)
+    except:
+        message = {
+            "code":"404",
+            "message":"invalid id",
+        } 
+        return Response(message)
 
 @api_view(['POST'])
 def goalCreate(request):
