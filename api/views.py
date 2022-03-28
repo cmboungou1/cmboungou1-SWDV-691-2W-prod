@@ -60,6 +60,7 @@ def goalCreate(request):
         serializer = GoalSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+        Response.status_code = 200
         return Response(serializer.data)
     except:
         message = {
