@@ -64,7 +64,7 @@ def goalCreate(request):
             Response.status_code = 200
             serializer.save()
         else:
-            Response.status_code = 404
+            Response.status_code = 400
         return Response(serializer.data)
     except:
         message = {
@@ -81,15 +81,16 @@ def goalUpdate(request, pk):
         serializer = GoalSerializer(instance=goal, data=request.data)
 
         if serializer.is_valid():
+            Response.status_code = 200
             serializer.save()
-        Response.status_code = 200
+        
         return Response(serializer.data)
     except:
         message = {
-            "code":"400",
+            "code":"404",
             "message":"Goal could not be Updated.",
         }
-        Response.status_code = 400
+        Response.status_code = 404
         return Response(message) 
 
 @api_view(['DELETE'])
