@@ -12,7 +12,7 @@ class Goal(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     type = models.TextField(null=True, blank=True)
-    category = models.CharField(max_length=10, choices=GoalCategory.choices,default=GoalCategory.GPA)
+    category = models.CharField(max_length=10, choices=GoalCategory.choices)#,default=GoalCategory.GPA)
     completed = models.BooleanField(default=False)
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
@@ -24,8 +24,7 @@ class Goal(models.Model):
         ordering = ["completed"]
 
 class Sat(models.Model):
-    goal = models.OneToOneField(Goal,on_delete=models.CASCADE)
-    category_sat = models.CharField(max_length=200,null=False, blank=False)
+    goal = models.OneToOneField(Goal,on_delete=models.CASCADE,related_name="sat")
     practice_test_score = models.IntegerField()
     private_tutor_time = models.IntegerField()
     have_a_strategy = models.BooleanField(default=False)
@@ -34,8 +33,7 @@ class Sat(models.Model):
         return self.category_sat
 
 class Gpa(models.Model):
-    goal = models.OneToOneField(Goal,on_delete=models.CASCADE)
-    category_gpa = models.CharField(max_length=200,null=False, blank=False)
+    goal = models.OneToOneField(Goal,on_delete=models.CASCADE,related_name="gpa")
     current_gpa = models.IntegerField()
     library_hours = models.IntegerField()
     friends_with_high_gpa = models.IntegerField()

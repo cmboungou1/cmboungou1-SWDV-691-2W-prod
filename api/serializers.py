@@ -1,7 +1,19 @@
 from rest_framework import serializers
-from base.models import Goal
+from base.models import Goal, Gpa, Sat
 
-class GoalSerializer(serializers.ModelSerializer):
+class SatSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = Goal
+		model = Sat
 		fields ='__all__'
+
+class GpaSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Gpa
+		fields ='__all__'
+
+class GoalSerializer(serializers.ModelSerializer):  
+    gpa = GpaSerializer(required=False)
+    sat = SatSerializer(required=False)
+    class Meta:
+        model = Goal
+        fields = ("id","user","title","description","type","category","completed","start_date","end_date","sat","gpa")

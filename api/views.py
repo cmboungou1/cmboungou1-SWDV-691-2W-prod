@@ -4,7 +4,7 @@ from django.http import JsonResponse
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import GoalSerializer
+from .serializers import GoalSerializer,GpaSerializer,SatSerializer
 from base.models import GoalCategory, Gpa
 from base.models import Sat
 from base.models import Goal
@@ -65,9 +65,11 @@ def goalCreate(request):
         if serializer.is_valid():
             goal = serializer.save()
             if goal.category == GoalCategory.GPA:
-                Gpa.objects.create(goal=goal)
+                print("In GPA")
+                Gpa.objects.create(goal=goal,current_gpa=request.data["current_gpa"],library_hours=request.data["library_hours"],friends_with_high_gpa=request.data["friends_with_high_gpa"],office_hours=request.data["office_hours"])
             else:
-                Sat.objects.create(goal=goal)
+                print("In SAT")
+                Sat.objects.create(goal=goal,practice_test_score=request.data["practice_test_score"],private_tutor_time=request.data["private_tutor_time"],have_a_strategy=request.data["have_a_strategy"])
             Response.status_code = 200
         else:
             Response.status_code = 400
@@ -75,7 +77,7 @@ def goalCreate(request):
     except:
         message = {
             "code":"400",
-            "message":"Goal could not be created.",
+            "message":"Goal could not be created. make sure to include all required fields.",
         }
         Response.status_code = 400
         return Response(message)    
@@ -85,11 +87,24 @@ def goalUpdate(request, pk):
     try:
         goal = Goal.objects.get(id=pk)
         serializer = GoalSerializer(instance=goal, data=request.data)
-
         if serializer.is_valid():
-            Response.status_code = 200
             serializer.save()
-        
+            if request.data["category"] == "SAT":
+                print("In SAT")
+                sat = goal.sat
+                sat.practice_test_score = request.data["practice_test_score"]
+                sat.private_tutor_time = request.data["private_tutor_time"]
+                sat.have_a_strategy = request.data["have_a_strategy"]
+                sat.save()
+            if request.data["category"] == "GPA":
+                print("In GPA")
+                gpa = goal.gpa
+                gpa.current_gpa = request.data["current_gpa"]
+                gpa.library_hours=request.data["library_hours"]
+                gpa.friends_with_high_gpa=request.data["friends_with_high_gpa"]
+                gpa.office_hours=request.data["office_hours"]
+                gpa.save()
+            Response.status_code = 200
         return Response(serializer.data)
     except:
         message = {
