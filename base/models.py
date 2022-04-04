@@ -8,11 +8,12 @@ class GoalCategory(models.TextChoices):
     GPA = "GPA"
 
 class Goal(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    goal_id = models.AutoField(auto_created = True, serialize=False, primary_key=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     type = models.TextField(null=True, blank=True)
-    category = models.CharField(max_length=10, choices=GoalCategory.choices,default=GoalCategory.GPA)
+    category = models.CharField(max_length=10, choices=GoalCategory.choices)#,default=GoalCategory.GPA)
     completed = models.BooleanField(default=False)
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
@@ -24,6 +25,7 @@ class Goal(models.Model):
         ordering = ["completed"]
 
 class Sat(models.Model):
+    sat_id = models.AutoField(auto_created = True, serialize=False, primary_key=True)
     goal = models.OneToOneField(Goal,on_delete=models.CASCADE,related_name="sat")
     practice_test_score = models.FloatField()
     private_tutor_time = models.FloatField()
@@ -33,6 +35,7 @@ class Sat(models.Model):
         return self.category_sat
 
 class Gpa(models.Model):
+    gpa_id = models.AutoField(auto_created = True, serialize=False, primary_key=True)
     goal = models.OneToOneField(Goal,on_delete=models.CASCADE,related_name="gpa")
     current_gpa = models.FloatField()
     library_hours = models.FloatField()
