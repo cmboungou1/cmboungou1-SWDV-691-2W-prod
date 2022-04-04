@@ -13,11 +13,11 @@ from base.models import Goal
 @api_view(['GET'])
 def apiOverview(request):
 	api_urls = {
-		'List':'/goal-list/<str:user_id/',
-		'Detail View':'/goal-detail/<str:user_id/<str:goal_id>/',
+		'List':'/goal-list/<str:user_id>/',
+		'Detail View':'/goal-detail/<str:user_id>/<str:goal_id>/',
 		'Create':'/goal-create/',
-		'Update':'/goal-update/<str:pk>/',
-		'Delete':'/goal-delete/<str:pk>/',
+		'Update':'/goal-update/<str:user_id>/<str:goal_id>/',
+		'Delete':'/goal-delete/<str:user_id>/<str:goal_id>/',
 		}
 
 	return Response(api_urls)
@@ -46,7 +46,7 @@ def goalList(request,user_id):
 @api_view(['GET'])
 def goalDetail(request,user_id, goal_id):
     try:
-        goals = Goal.objects.get(user_id=user_id,goal_id=goal_id)
+        goals = Goal.objects.get(user=user_id,goal_id=goal_id)
         serializer = GoalSerializer(goals, many=False)
         Response.status_code = 200       
         return Response(serializer.data)
@@ -83,9 +83,9 @@ def goalCreate(request):
         return Response(message)    
 
 @api_view(['POST'])
-def goalUpdate(request, pk):
+def goalUpdate(request, user_id, goal_id):
     try:
-        goal = Goal.objects.get(id=pk)
+        goal = Goal.objects.get(user=user_id, goal_id=goal_id)
         serializer = GoalSerializer(instance=goal, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -115,9 +115,9 @@ def goalUpdate(request, pk):
         return Response(message) 
 
 @api_view(['DELETE'])
-def goalDelete(request, pk):
+def goalDelete(request, user_id, goal_id):
     try:
-        goal = Goal.objects.get(id=pk)
+        goal = Goal.objects.get(user=user_id,goal_id=goal_id)
         goal.delete()
         Response.status_code = 200
         return Response('Item succsesfully delete!')
