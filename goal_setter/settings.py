@@ -95,9 +95,9 @@ WSGI_APPLICATION = "goal_setter.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "danak7j9dobef1",
-        "USER": "emdbmnkfqbxvvy",
-        "PASSWORD": "e1e5e3bf45d83b221d24aa54514b3b74949f127b0b720fd733f7364104aa20bb",
+        "NAME": "df5vegg1lrin9k",
+        "USER": "goaifsdumnffcf",
+        "PASSWORD": "c233857c95e292a85d910b24b93110ccc3452cc470066ba3b4a54b002239416b",
         "HOST": "ec2-52-73-155-171.compute-1.amazonaws.com",
         "PORT": "5432",
     }

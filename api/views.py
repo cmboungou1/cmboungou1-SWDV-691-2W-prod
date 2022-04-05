@@ -24,9 +24,12 @@ def apiOverview(request):
 
 @api_view(['GET'])
 def goalList(request,user_id):
+    print(request)
     try:
-        goals = Goal.objects.get(user=user_id)#.order_by('-goal_id')
-        serializer = GoalSerializer(goals, many=True)
+        print("here")
+        goals = Goal.objects.filter()#.order_by('-goal_id')
+        print(goals.id)
+        serializer = GoalSerializer(goals, many=False)
         Response.status_code = 200
         return Response(serializer.data)
     except:
@@ -44,9 +47,9 @@ def goalList(request,user_id):
 # 	return Response(serializer.data)
 
 @api_view(['GET'])
-def goalDetail(request,user_id, goal_id):
+def goalDetail(request,user_id, id):
     try:
-        goals = Goal.objects.get(user=user_id,id=goal_id)
+        goals = Goal.objects.get(user=user_id,id=id)
         serializer = GoalSerializer(goals, many=False)
         Response.status_code = 200       
         return Response(serializer.data)
@@ -62,6 +65,7 @@ def goalDetail(request,user_id, goal_id):
 def goalCreate(request):
     try:
         serializer = GoalSerializer(data=request.data)
+        print(serializer)
         if serializer.is_valid():
             goal = serializer.save()
             if goal.category == GoalCategory.GPA:
@@ -115,9 +119,9 @@ def goalUpdate(request, user_id, goal_id):
         return Response(message) 
 
 @api_view(['DELETE'])
-def goalDelete(request, user_id, goal_id):
+def goalDelete(request, user_id, id):
     try:
-        goal = Goal.objects.get(user=user_id,id=goal_id)
+        goal = Goal.objects.get(user=user_id,id=id)
         goal.delete()
         Response.status_code = 200
         return Response('Item succsesfully delete!')

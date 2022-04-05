@@ -16,4 +16,4 @@ class GoalSerializer(serializers.ModelSerializer):
     sat = SatSerializer(required=False)
     class Meta:
         model = Goal
-        fields = ("goal_id","user","title","description","type","category","completed","start_date","end_date","sat","gpa")
+        fields = ("id","user","title","description","type","category","completed","start_date","end_date","sat","gpa")
