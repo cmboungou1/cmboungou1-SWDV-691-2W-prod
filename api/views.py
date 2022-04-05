@@ -66,7 +66,7 @@ def goalCreate(request):
             goal = serializer.save()
             if goal.category == GoalCategory.GPA:
                 print("In GPA")
-                Gpa.objects.create(goal=goal,current_gpa=request.data["current_gpa"],library_hours=request.data["library_hours"],friends_with_high_gpa=request.data["friends_with_high_gpa"],office_hours=request.data["office_hours"])
+                Gpa.objects.create(gpa_id=10,goal=goal,current_gpa=request.data["current_gpa"],library_hours=request.data["library_hours"],friends_with_high_gpa=request.data["friends_with_high_gpa"],office_hours=request.data["office_hours"])
             else:
                 print("In SAT")
                 Sat.objects.create(goal=goal,practice_test_score=request.data["practice_test_score"],private_tutor_time=request.data["private_tutor_time"],have_a_strategy=request.data["have_a_strategy"])
