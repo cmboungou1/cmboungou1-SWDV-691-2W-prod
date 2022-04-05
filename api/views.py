@@ -1,4 +1,4 @@
-from unicodedata import category
+#from unicodedata import category
 from django.shortcuts import render
 from django.http import JsonResponse
 
@@ -26,10 +26,11 @@ def apiOverview(request):
 def goalList(request,user_id):
     print(request)
     try:
-        print("here")
-        goals = Goal.objects.filter()#.order_by('-goal_id')
-        print(goals.id)
-        serializer = GoalSerializer(goals, many=False)
+        queryset= Goal.objects.all()
+        print(queryset)
+        #goals = Goal.objects.filter(category="GPA")
+        goals = queryset.filter(user=user_id)
+        serializer = GoalSerializer(goals, many=True)
         Response.status_code = 200
         return Response(serializer.data)
     except:
