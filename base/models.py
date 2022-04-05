@@ -36,7 +36,7 @@ class Gpa(models.Model):
     goal = models.OneToOneField(Goal,on_delete=models.CASCADE,related_name="gpa")
     current_gpa = models.FloatField()
     library_hours = models.FloatField()
-    friends_with_high_gpa = models.FloatField()
+    friends_with_high_gpa = models.IntegerField()
     office_hours = models.FloatField()
 
     def __str__(self):

@@ -88,9 +88,9 @@ def goalCreate(request):
         return Response(message)    
 
 @api_view(['POST'])
-def goalUpdate(request, user_id, goal_id):
+def goalUpdate(request, user_id, id):
     try:
-        goal = Goal.objects.get(user=user_id, id=goal_id)
+        goal = Goal.objects.get(user=user_id, id=id)
         serializer = GoalSerializer(instance=goal, data=request.data)
         if serializer.is_valid():
             serializer.save()
