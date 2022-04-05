@@ -14,10 +14,10 @@ from base.models import Goal
 def apiOverview(request):
 	api_urls = {
 		'List':'/goal-list/<str:user_id>/',
-		'Detail View':'/goal-detail/<str:user_id>/<str:goal_id>/',
+		'Detail View':'/goal-detail/<str:user_id>/<str:id>/',
 		'Create':'/goal-create/',
-		'Update':'/goal-update/<str:user_id>/<str:goal_id>/',
-		'Delete':'/goal-delete/<str:user_id>/<str:goal_id>/',
+		'Update':'/goal-update/<str:user_id>/<str:id>/',
+		'Delete':'/goal-delete/<str:user_id>/<str:id>/',
 		}
 
 	return Response(api_urls)
@@ -25,7 +25,7 @@ def apiOverview(request):
 @api_view(['GET'])
 def goalList(request,user_id):
     try:
-        goals = Goal.objects.get(user_id=user_id)#.order_by('-goal_id')
+        goals = Goal.objects.get(user=user_id)#.order_by('-goal_id')
         serializer = GoalSerializer(goals, many=True)
         Response.status_code = 200
         return Response(serializer.data)
@@ -46,7 +46,7 @@ def goalList(request,user_id):
 @api_view(['GET'])
 def goalDetail(request,user_id, goal_id):
     try:
-        goals = Goal.objects.get(user=user_id,goal_id=goal_id)
+        goals = Goal.objects.get(user=user_id,id=goal_id)
         serializer = GoalSerializer(goals, many=False)
         Response.status_code = 200       
         return Response(serializer.data)
@@ -66,7 +66,7 @@ def goalCreate(request):
             goal = serializer.save()
             if goal.category == GoalCategory.GPA:
                 print("In GPA")
-                Gpa.objects.create(gpa_id=10,goal=goal,current_gpa=request.data["current_gpa"],library_hours=request.data["library_hours"],friends_with_high_gpa=request.data["friends_with_high_gpa"],office_hours=request.data["office_hours"])
+                Gpa.objects.create(goal=goal,current_gpa=request.data["current_gpa"],library_hours=request.data["library_hours"],friends_with_high_gpa=request.data["friends_with_high_gpa"],office_hours=request.data["office_hours"])
             else:
                 print("In SAT")
                 Sat.objects.create(goal=goal,practice_test_score=request.data["practice_test_score"],private_tutor_time=request.data["private_tutor_time"],have_a_strategy=request.data["have_a_strategy"])
@@ -85,7 +85,7 @@ def goalCreate(request):
 @api_view(['POST'])
 def goalUpdate(request, user_id, goal_id):
     try:
-        goal = Goal.objects.get(user=user_id, goal_id=goal_id)
+        goal = Goal.objects.get(user=user_id, id=goal_id)
         serializer = GoalSerializer(instance=goal, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -117,7 +117,7 @@ def goalUpdate(request, user_id, goal_id):
 @api_view(['DELETE'])
 def goalDelete(request, user_id, goal_id):
     try:
-        goal = Goal.objects.get(user=user_id,goal_id=goal_id)
+        goal = Goal.objects.get(user=user_id,id=goal_id)
         goal.delete()
         Response.status_code = 200
         return Response('Item succsesfully delete!')
