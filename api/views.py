@@ -1,4 +1,4 @@
-#from unicodedata import category
+from unicodedata import category
 from django.shortcuts import render
 from django.http import JsonResponse
 
