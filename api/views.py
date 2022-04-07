@@ -73,7 +73,7 @@ def goalCreate(request):
         else:
             raise Exception("invalid input from goal-create")
             #Response.status_code = 400
-        #return Response(serializer.data)
+        return Response(serializer.data)
     except:
         message = {
             "code":"400",
