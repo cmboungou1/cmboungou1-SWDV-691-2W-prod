@@ -4,7 +4,7 @@ from django.http import JsonResponse
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import GoalSerializer,GpaSerializer,SatSerializer
+from .serializers import GoalSerializer
 from base.models import GoalCategory, Gpa
 from base.models import Sat
 from base.models import Goal
@@ -14,10 +14,10 @@ from base.models import Goal
 def apiOverview(request):
 	api_urls = {
 		'List':'/goal-list/<str:user_id>/',
-		'Detail View':'/goal-detail/<str:user_id>/<str:id>/',
+		'Detail View':'/goal-detail/<str:user_id>/<str:goal_id>/',
 		'Create':'/goal-create/',
-		'Update':'/goal-update/<str:user_id>/<str:id>/',
-		'Delete':'/goal-delete/<str:user_id>/<str:id>/',
+		'Update':'/goal-update/<str:user_id>/<str:goal_id>/',
+		'Delete':'/goal-delete/<str:user_id>/<str:goal_id>/',
 		}
 
 	return Response(api_urls)
@@ -40,12 +40,6 @@ def goalList(request,user_id):
         }
         Response.status_code = 404
         return Response(message)
-
-# @api_view(['GET'])
-# def goalDetail(request, pk): 
-# 	goals = Goal.objects.get(id=pk)
-# 	serializer = GoalSerializer(goals, many=False)
-# 	return Response(serializer.data)
 
 @api_view(['GET'])
 def goalDetail(request,user_id, id):
@@ -77,12 +71,13 @@ def goalCreate(request):
                 Sat.objects.create(goal=goal,practice_test_score=request.data["practice_test_score"],private_tutor_time=request.data["private_tutor_time"],have_a_strategy=request.data["have_a_strategy"])
             Response.status_code = 200
         else:
-            Response.status_code = 400
-        return Response(serializer.data)
+            raise Exception("invalid input from goal-create")
+            #Response.status_code = 400
+        #return Response(serializer.data)
     except:
         message = {
             "code":"400",
-            "message":"Goal could not be created. make sure to include all required fields.",
+            "message":"Goal could not be created. make sure to include all required fields. Please make sure you are using a valid user id.",
         }
         Response.status_code = 400
         return Response(message)    
