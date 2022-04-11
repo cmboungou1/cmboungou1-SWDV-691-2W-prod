@@ -1,15 +1,15 @@
 # cmboungou1-SWDV-691-2W-prod
 
-Name
+# Name:
 Goal-Setter
 
-Description
+# Description:
 Goal Setter is a web application designed to enable users to easily create short term goals and track how these goals may affect them in the future. 
 
-purpose
+# Purpose:
 This is a productivity app. The purpose of this application is to help people achieve their goal and make predictions that will benefit them.
 
-Tech Stack
+# Tech Stack:
 Python
 Django
 Heroku
@@ -19,7 +19,7 @@ Bootstrap
 JavaScript
 CSS
 
-Requirements.txt
+# Requirements.txt:
 asgiref==3.5.0
 dj-database-url==0.5.0
 Django==4.0.3
@@ -32,5 +32,5 @@ sqlparse==0.4.2
 tzdata==2022.1
 whitenoise==6.0.0
 
-Roadmap
+# Roadmap:
 More categories to come...
