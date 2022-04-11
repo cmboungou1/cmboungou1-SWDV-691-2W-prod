@@ -24,11 +24,8 @@ def apiOverview(request):
 
 @api_view(['GET'])
 def goalList(request,user_id):
-    print(request)
     try:
         queryset= Goal.objects.all()
-        print(queryset)
-        #goals = Goal.objects.filter(category="GPA")
         goals = queryset.filter(user=user_id)
         serializer = GoalSerializer(goals, many=True)
         Response.status_code = 200

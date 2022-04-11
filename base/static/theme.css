@@ -1,0 +1,313 @@
+body {
+    background: rgb(240, 240, 240);
+    font-family: Georgia, Verdana, sans-serif;
+    color: black;
+}
+
+h1 {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 19px;
+}
+
+h3 {
+    font-size: 15px;
+}
+
+button {
+    background-color: DodgerBlue;
+    border-radius: 6px;
+    padding: 10px;
+    color: white;
+}
+
+.inputLabel {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.form-check-label {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+input.inputField {
+    padding: 6px;
+    border: 1px solid DodgerBlue;
+}
+
+div.box {
+    height: 100px;
+    width: 100px;
+    display: inline-block;
+    margin: 0 10px 0 10px;
+}
+
+#primary1 {
+    background-color: DodgerBlue;
+}
+
+#primary2 {
+    background-color: LightBlue;
+}
+
+#primary3 {
+    background-color: WhiteSmoke;
+}
+
+svg.svg-inline--fa {
+    color: white;
+}
+
+.spacer {
+    margin-top: 25px;
+}
+
+
+#footer {
+    border-top: 1px solid #dddddd;
+    margin-top: 50px;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #17a2b8;
+
+}
+
+#goal-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    background-color: #fff;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+#form-wrapper {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0rem;
+    border-bottom: 1px solid #e9e9e9;
+    background-color: #fff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+    padding: 40px;
+}
+
+/* #submit_goal{
+    background-color: #36d9b6;
+    border-radius: 0;
+    border: 0;
+    color: #fff;
+} */
+
+.flex-wrapper {
+    display: flex;
+}
+
+.goal-wrapper {
+    margin: 5px;
+    padding: 5px;
+    padding: 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #e9e9e9;
+    color: #686868;
+}
+
+/* .container {
+    max-width: 1000px;
+    margin: auto;
+    background-color: #ffff;
+    -webkit-box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
+    box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
+} */
+
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    color: #ffff;
+    padding: 10px;
+    border-radius: 5px 5px 0 0;
+    background: linear-gradient(90deg, #164296 0%, #164296 43%, #164296 100%);
+}
+
+.header-bar a {
+    color: rgb(247, 247, 247);
+    text-decoration: none;
+}
+
+.goal-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #ffff;
+    border-top: 1px solid rgb(226, 226, 226);
+}
+
+.goal-title {
+    display: flex;
+}
+
+.goal-title a {
+    text-decoration: none;
+    color: #4b5156;
+    margin-left: 10px;
+}
+
+.goal-complete-icon {
+    height: 20px;
+    width: 20px;
+    background-color: rgb(105, 192, 105);
+    border-radius: 50%;
+}
+
+.goal-incomplete-icon {
+    height: 20px;
+    width: 20px;
+    background-color: rgb(218, 218, 218);
+    border-radius: 50%;
+}
+
+.delete-link {
+    text-decoration: none;
+    /* font-weight: 900; */
+    color: #cf4949;
+    font-size: 35px;
+    line-height: 0;
+}
+
+.delete-label {
+    display: inline;
+    font-size: 25px;
+    /* font-family: Georgia, Verdana, sans-serif; */
+    /* text-shadow: 1px 1px #81413b; */
+}
+
+.add-label {
+    text-decoration: none;
+    display: inline;
+    font-size: 25px;
+    font-family: Georgia, Verdana, sans-serif;
+}
+
+#search-add-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+#add-link {
+    color: #EB796F;
+    text-decoration: none;
+    font-size: 42px;
+    /* text-shadow: 1px 1px #81413b; */
+}
+
+/* Delete Modal */
+
+/* Float cancel and delete buttons and add an equal width */
+.cancelbtn,
+.deletebtn {
+    float: center;
+    width: 25%;
+    margin: 30px;
+}
+
+/* Add a color to the cancel button */
+.cancelbtn {
+    background-color: #ccc;
+    color: black;
+}
+
+/* Add a color to the delete button */
+.deletebtn {
+    background-color: #f44336;
+}
+
+/* Add padding and center-align text to the container */
+.modalContainer {
+    padding: 100px;
+    text-align: center;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: #474e5d;
+    padding-top: 50px;
+    opacity: 0.9;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto;
+    /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%;
+    /* Could be more or less, depending on screen size */
+}
+
+/* Style the horizontal ruler */
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+/* The Modal Close Button (x) */
+.close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+    color: #f44336;
+    cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Change styles for cancel button and delete button on extra small screens */
+@media screen and (max-width: 300px) {
+
+    .cancelbtn,
+    .deletebtn {
+        width: 100%;
+    }
+}
+
+#addbtn {
+    float: right;
+}

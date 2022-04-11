@@ -1,0 +1,236 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="This is my style guide" content="">
+    <meta name="Christ Mboungou" content="">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Goal-Setter</title>
+
+    <!--  Place Custom Styles Below -->
+    <link rel="stylesheet" href="{% static '/theme.css' %}">
+	<!-- Include script for font awesome icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id="goal-container">
+            <div id="goal-wrapper">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                      <a class="navbar-brand" href="#">Navbar</a>
+                      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'list' %}">Home</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'timeline' %}">Timeline</a>
+                          </li>
+                          <li class="nav-item">
+                            <a  class="nav-link active" aria-current="page" href="{% url 'edit' %}">Edit</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </nav>
+            </div>
+            <div class="card border-info mb-3">
+                <div class="card-header">Header</div>
+                <div class="card-body">
+                  <h5 class="card-title">Info card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <form class="needs-validation" id="goalForm" novalidate>
+                    <div class="form-row">
+                      <div class="col-md-4 mb-3">
+                        <label for="goalTitle">Title</label>
+                        <input name="title" type="text" class="form-control" id="goalTitle" placeholder="title" required>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="goalDescription">Description</label>
+                        <input name="description" type="text" class="form-control" id="goalDescription" placeholder="Description" required>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+                      <div class="form-check">
+                        <input name="completed" class="form-check-input" type="checkbox" value="" id="goalCompleted">
+                        <label class="form-check-label" for="goalCompleted">
+                          Goal Completed
+                        </label>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="goalCategory">Category</label>
+                        <select name="category" class="custom-select custom-select-md mb-3" id="goalCategory" disabled>
+                            <option value="GPA">GPA</option>
+                            <option value="SAT">SAT</option>
+                        </select>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="goalStartDate">Start Date</label>
+                        <input name="start_date" type="date" min="" class="form-control" id="goalStartDate" required>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="goalEndDate">End Date</label>
+                        <input name="end_date" type="date" class="form-control" id="goalEndDate" required>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3" id="categoryFieldDiv1"></div>
+                      <div class="col-md-4 mb-3" id="categoryFieldDiv2"></div>
+                      <div class="col-md-4 mb-3" id="categoryFieldDiv3"></div>
+                      <div class="col-md-4 mb-3" id="categoryFieldDiv4"></div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Update Goal</button>
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div class="container">
+            <p >Christ M. production</p>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/0d2515d6e6.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        dateformatter()
+        populateGoal()
+        function dateformatter(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
+            var yyyy = today.getFullYear();
+            if(dd<10){
+            dd='0'+dd
+            } 
+            if(mm<10){
+            mm='0'+mm
+            } 
+            today = yyyy+'-'+mm+'-'+dd;
+            document.getElementById("goalStartDate").setAttribute("min", today);
+            document.getElementById("goalEndDate").setAttribute("min", today);
+        }
+
+        function getGoalRec(){
+            return JSON.parse(localStorage.getItem("Goal-To-Edit"));
+        }
+
+        function populateGoal(){
+            let goal = getGoalRec()
+            let startDate = goal.start_date
+            let endDate = goal.end_date
+            if (startDate != null){
+                startDate = goal.start_date.split("T")[0]
+            }
+            if (endDate != null){
+                endDate = goal.end_date.split("T")[0] 
+            }
+            document.getElementById("goalTitle").value= goal.title
+            document.getElementById("goalDescription").value= goal.description
+            document.getElementById("goalCategory").value= goal.category
+            document.getElementById("goalCompleted").checked = goal.completed;
+            document.getElementById("goalStartDate").value = startDate
+            document.getElementById("goalEndDate").value = endDate
+
+            populateGPAorSAT(goal)
+        }
+
+        function populateGPAorSAT(goal){
+            if (goal.category == "GPA"){
+                let categoryField1 = document.getElementById("categoryFieldDiv1")
+                categoryField1.innerHTML = `
+                <label for="curr_gpa">Current GPA</label>
+                <input name="current_gpa" type="text" class="form-control" id="curr_gpa" value="`+goal.gpa.current_gpa+`" placeholder="Current GPA" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>`
+                let categoryField2 = document.getElementById("categoryFieldDiv2")
+                categoryField2.innerHTML =`
+                    <label for="friends_gpa">Number of friends with high GPA</label>
+                    <input name="friends_with_high_gpa" type="text" class="form-control" id="friends_gpa" value="`+goal.gpa.friends_with_high_gpa+`" placeholder="Number of friends with high GPA" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>`
+                let categoryField3 = document.getElementById("categoryFieldDiv3")
+                categoryField3.innerHTML =`
+                    <label for="lib_hours">Library Hours</label>
+                    <input name="library_hours" type="text" class="form-control" id="lib_hours" value="`+goal.gpa.library_hours+`" placeholder="Library Hours" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>`
+                let categoryField4 = document.getElementById("categoryFieldDiv4")
+                categoryField4.innerHTML =`
+                    <label for="office_hours">Office Hours</label>
+                    <input name="office_hours" type="text" class="form-control" id="office_hours" value="`+goal.gpa.office_hours+`" placeholder="Office Hours" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                `
+            }
+            if (goal.category == "SAT"){
+                let categoryField1 = document.getElementById("categoryFieldDiv1")
+                categoryField1.innerHTML = `
+                <label for="prac_test">Practice test score</label>
+                <input name="practice_test_score" type="text" class="form-control" id="prac_test" value="`+goal.sat.practice_test_score+`" placeholder="Practice test score" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>`
+                let categoryField2 = document.getElementById("categoryFieldDiv2")
+                categoryField2.innerHTML =`
+                <label for="priv_tut_tim">Private tutor time</label>
+                <input name="private_tutor_time" type="text" class="form-control" id="priv_tut_tim" value="`+goal.sat.private_tutor_time+`" placeholder="Private tutor time" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>`
+                let categoryField3 = document.getElementById("categoryFieldDiv3")
+                categoryField3.innerHTML =`
+                <div class="form-check">
+                    <input name="have_a_strategy" class="form-check-input" type="checkbox" checked="`+goal.sat.have_a_strategy+`" id="have_stra">
+                    <label class="form-check-label" for="have_stra">
+                        Do you have a strategy?
+                    </label>
+                </div>`
+            }
+        }
+        document.getElementById("goalForm").addEventListener("submit", function(event){
+            event.preventDefault()
+            let data = {
+                title:document.getElementById("goalTitle").value,
+                description:document.getElementById("goalDescription").value,
+                category:document.getElementById("goalCategory").value,
+                completed:document.getElementById("goalCompleted").checked,
+                startDate: document.getElementById("goalStartDate").value,
+                endDate: document.getElementById("goalEndDate").value,
+                current_gpa: document.getElementById("curr_gpa").value,
+                friends_with_high_gpa: document.getElementById("friends_gpa").value,
+                library_hours: document.getElementById("lib_hours").value,
+                office_hours: document.getElementById("office_hours").value,
+                practice_test_score: document.getElementById("prac_test").value,
+                private_tutor_time: document.getElementById("priv_tut_tim").value,
+                have_a_strategy: document.getElementById("have_stra").checked,               
+                }
+            console.log(data)
+        })        
+
+    </script>
+</body>
+
+</html>
