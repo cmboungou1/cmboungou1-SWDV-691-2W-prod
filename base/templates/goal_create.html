@@ -22,55 +22,93 @@
     <div class="container">
         <div id="goal-container">
             <div id="goal-wrapper">
+              <div>
+                <img src="{% static '/logo.png' %}" alt="My image">
+              </div>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container-fluid">
-                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                      </button>
-                      <a class="navbar-brand" href="#">Navbar</a>
                       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'list' %}">Home</a>
+                            <a class="nav-link" href="{% url 'list' %}">Home</a>
                           </li>
                           <li class="nav-item">
                             <a class="nav-link" href="{% url 'timeline' %}">Timeline</a>
                           </li>
+                          <li class="nav-item">
+                            <a  class="nav-link active" aria-current="page" href="{% url 'create' %}">Create</a>
+                          </li>
                         </ul>
-                        <form class="d-flex">
-                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                          <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
                       </div>
                     </div>
                   </nav>
             </div>
-
             <div class="card border-info mb-3">
                 <div class="card-header">Header</div>
                 <div class="card-body">
-                  <h5 class="card-title">Info card title <a href="{% url 'create' %}" id="addbtn"><i class="fas fa-plus"></i> Add Goal</a></h5>
+                  <h5 class="card-title">Info card title</h5>
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <form class="needs-validation" id="goalForm" novalidate>
+                    <div class="form-row">
+                      <div class="col-md-4 mb-3">
+                        <label for="goalTitle">Title</label>
+                        <input name="title" type="text" class="form-control" id="goalTitle" placeholder="Title" required>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="goalDescription">Description</label>
+                        <input name="description" type="text" class="form-control" id="goalDescription" placeholder="Description" required>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="goalType">Goal Type</label>
+                        <input name="goaltype" type="text" class="form-control" id="goalType" placeholder="Type" required>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+                      <div class="form-check">
+                        <input name="completed" class="form-check-input" type="checkbox" value="" id="goalCompleted">
+                        <label class="form-check-label" for="goalCompleted">
+                          Goal Completed
+                        </label>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="goalCategory">Category</label>
+                        <select name="category" onchange="createGPAorSAT()" class="custom-select custom-select-md mb-3" id="goalCategory" required>
+                            <option selected></option>
+                            <option value="GPA">GPA</option>
+                            <option value="SAT">SAT</option>
+                        </select>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="goalStartDate">Start Date</label>
+                        <input name="start_date" type="date" min="" class="form-control" id="goalStartDate" required>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="goalEndDate">End Date</label>
+                        <input name="end_date" type="date" class="form-control" id="goalEndDate" required>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3" id="categoryFieldDiv1"></div>
+                      <div class="col-md-4 mb-3" id="categoryFieldDiv2"></div>
+                      <div class="col-md-4 mb-3" id="categoryFieldDiv3"></div>
+                      <div class="col-md-4 mb-3" id="categoryFieldDiv4"></div>                      
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit Goal</button>
+                  </form>
                 </div>
-            </div>
-            <div id="list-wrapper">
-
             </div>
         </div>
-        <div id="deleteModal" class="modal">
-            <span onclick="document.getElementById('deleteModal').style.display='none'" class="close" title="Close Modal">×</span>
-            <form class="modal-content" action="/action_page.php">
-              <div class="modalContainer">
-                <h1>Delete Goal</h1>
-                <p>Are you sure you want to delete your goal?</p>
-              
-                <div class="clearfix">
-                  <button type="button" onclick="document.getElementById('deleteModal').style.display='none'" class="cancelbtn">Cancel</button>
-                  <button type="button" onclick="deleteItem()" class="deletebtn">Delete</button>
-                </div>
-              </div>
-            </form>
-          </div>
     </div>
 
     <div id="footer">
@@ -80,6 +118,158 @@
     </div>
     <script src="https://kit.fontawesome.com/0d2515d6e6.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
+        let goal = getGoalRec()
+        dateformatter()
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        function dateformatter(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
+            var yyyy = today.getFullYear();
+            if(dd<10){
+            dd='0'+dd
+            } 
+            if(mm<10){
+            mm='0'+mm
+            } 
+            today = yyyy+'-'+mm+'-'+dd;
+            document.getElementById("goalStartDate").setAttribute("min", today);
+            document.getElementById("goalEndDate").setAttribute("min", today);
+        }
+
+        function getGoalRec(){
+            return JSON.parse(localStorage.getItem("Goal-To-Edit"));
+        }
+
+        function createGPAorSAT(){
+          let selected_category = document.getElementById("goalCategory").value
+          // if (selected_category == "Select a category"){
+          // document.getElementById("categoryFieldDiv1").innerHTML = `
+          // <div class="col-md-4 mb-3" type="hidden" id="categoryFieldDiv1"></div> 
+          // `
+          // document.getElementById("categoryFieldDiv2").innerHTML = `
+          // <div class="col-md-4 mb-3" type="hidden" id="categoryFieldDiv2"></div> 
+          // `
+          // document.getElementById("categoryFieldDiv3").innerHTML = `
+          // <div class="col-md-4 mb-3" type="hidden" id="categoryFieldDiv3"></div> 
+          // `
+          // if (document.getElementById("categoryFieldDiv4")){
+          //   document.getElementById("categoryFieldDiv4").innerHTML = `
+          //   <div class="col-md-4 mb-3" type="hidden" id="categoryFieldDiv4"></div> 
+          // ` }
+          // }
+          if (selected_category == "GPA"){
+            let categoryField1 = document.getElementById("categoryFieldDiv1")
+            categoryField1.innerHTML = `
+            <label for="curr_gpa">Current GPA</label>
+            <input name="current_gpa" type="number" step="0.01" class="form-control" id="curr_gpa" value="" placeholder="Current GPA" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>`
+            let categoryField2 = document.getElementById("categoryFieldDiv2")
+            categoryField2.innerHTML =`
+                <label for="friends_gpa">Number of friends with high GPA</label>
+                <input name="friends_with_high_gpa" type="number" class="form-control" id="friends_gpa" value="" placeholder="Number of friends with high GPA" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>`
+            let categoryField3 = document.getElementById("categoryFieldDiv3")
+            categoryField3.innerHTML =`
+                <label for="lib_hours">Total library Hours</label>
+                <input name="library_hours" type="number" class="form-control" id="lib_hours" value="" placeholder="Library Hours" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>`
+            let categoryField4 = document.getElementById("categoryFieldDiv4")
+            categoryField4.innerHTML =`
+                <label for="Total office_hours">Office Hours</label>
+                <input name="office_hours" type="number" class="form-control" id="office_hours" value="" placeholder="Office Hours" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            `
+         }
+        if (selected_category == "SAT"){
+            let categoryField1 = document.getElementById("categoryFieldDiv1")
+            categoryField1.innerHTML = `
+            <label for="prac_test">Practice test score</label>
+            <input name="practice_test_score" type="number" class="form-control" id="prac_test" value="" placeholder="Practice test score" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>`
+            let categoryField2 = document.getElementById("categoryFieldDiv2")
+            categoryField2.innerHTML =`
+            <label for="priv_tut_tim">Hours Spent with a private tutor </label>
+            <input name="private_tutor_time" type="number" class="form-control" id="priv_tut_tim" value="" placeholder="Private tutor time" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>`
+            let categoryField3 = document.getElementById("categoryFieldDiv3")
+            categoryField3.innerHTML =`
+            <div class="form-check">
+                <input name="have_a_strategy" class="form-check-input" type="checkbox" id="have_stra">
+                <label class="form-check-label" for="have_stra">
+                    Do you have a strategy?
+                </label>
+            </div>`  
+            document.getElementById("categoryFieldDiv4").innerHTML = `
+            <div class="col-md-4 mb-3" type="hidden" id="categoryFieldDiv4"></div> 
+          ` }
+      }
+      document.getElementById("goalForm").addEventListener("submit", function(event){
+          event.preventDefault()
+              //goal.user,
+              let data = JSON.stringify({
+                user:goal.user,
+                title:document.getElementById("goalTitle").value,
+                description:document.getElementById("goalDescription").value,
+                category:document.getElementById("goalCategory").value,
+                completed:document.getElementById("goalCompleted").checked,
+                type:document.getElementById("goalType").value,
+                start_date: document.getElementById("goalStartDate").value == ""? null:document.getElementById("goalStartDate")?.value,
+                end_date: document.getElementById("goalEndDate")?.value == ""? null:document.getElementById("goalEndDate")?.value,
+                current_gpa: document.getElementById("curr_gpa")?.value == undefined? null:document.getElementById("curr_gpa")?.value,
+                friends_with_high_gpa: document.getElementById("friends_gpa")?.value == undefined? null:document.getElementById("friends_gpa")?.value,
+                library_hours: document.getElementById("lib_hours")?.value == undefined? null:document.getElementById("lib_hours")?.value,
+                office_hours: document.getElementById("office_hours")?.value == undefined? null:document.getElementById("office_hours")?.value,
+                practice_test_score: document.getElementById("prac_test")?.value == undefined? null:document.getElementById("prac_test")?.value,
+                private_tutor_time: document.getElementById("priv_tut_tim")?.value == undefined? null:document.getElementById("priv_tut_tim")?.value,
+                have_a_strategy: document.getElementById("have_stra")?.checked == undefined? null:document.getElementById("have_stra")?.checked             
+                })
+          //localStorage.setItem("Goal-To-Edit", data)
+          var url = 'http://127.0.0.1:8000/api/goal-create/'
+          fetch(url, {
+              method: 'POST',
+              headers:{
+                  'Content-type': 'application/json',
+                  'X-CSRFToken': csrftoken,
+              },
+              body: data
+          }
+          ).then(function(response){
+              if (response.status == 200){
+                window.location.assign("{% url 'list' %}")
+              }else{
+                  alert("Goal could not be created, please check your fields and try again.")
+              }
+                              
+          })
+      })        
 
     </script>
 </body>

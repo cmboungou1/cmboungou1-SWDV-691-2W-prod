@@ -15,19 +15,18 @@
     <!--  Place Custom Styles Below -->
     <link rel="stylesheet" href="{% static '/theme.css' %}">
 	<!-- Include script for font awesome icon library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/0d2515d6e6.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <div class="container">
         <div id="goal-container">
             <div id="goal-wrapper">
+              <div>
+                <img src="{% static '/logo.png' %}" alt="My image">
+              </div>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container-fluid">
-                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                      </button>
-                      <a class="navbar-brand" href="#">Navbar</a>
                       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
@@ -37,10 +36,6 @@
                             <a class="nav-link active" aria-current="page" href="{% url 'timeline' %}">Timeline</a>
                           </li>
                         </ul>
-                        <form class="d-flex">
-                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                          <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
                       </div>
                     </div>
                   </nav>
@@ -49,27 +44,29 @@
             <div class="card border-info mb-3">
                 <div class="card-header">Header</div>
                 <div class="card-body">
-                  <h5 class="card-title">Info card title <a href="{% url 'create' %}" id="addbtn"><i class="fas fa-plus"></i> Add Goal</a></h5>
+                  <h5 class="card-title">Info card title <a href="{% url 'create' %}" id="addbtn"><i class="fa-solid fa-plus"></i> Add Future Goal</a></h5>
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 </div>
             </div>
-            <div id="list-wrapper">
-
-            </div>
-        </div>
-        <div id="deleteModal" class="modal">
-            <span onclick="document.getElementById('deleteModal').style.display='none'" class="close" title="Close Modal">×</span>
-            <form class="modal-content" action="/action_page.php">
-              <div class="modalContainer">
-                <h1>Delete Goal</h1>
-                <p>Are you sure you want to delete your goal?</p>
-              
-                <div class="clearfix">
-                  <button type="button" onclick="document.getElementById('deleteModal').style.display='none'" class="cancelbtn">Cancel</button>
-                  <button type="button" onclick="deleteItem()" class="deletebtn">Delete</button>
-                </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+              <div class="card bg-light text-dark">
+                <div class="card-header">Accomplishments</div>
+                <div class="card-body" id="current_goals_div"></div>
               </div>
-            </form>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card bg-light text-dark">
+                <div class="card-header">Future Goals</div>
+                  <div class="card-body" id="future_goals_div"></div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card bg-light text-dark">
+                <div class="card-header">Impact</div>
+                <div class="card-body">Light card</div>
+              </div>
+            </div>
           </div>
     </div>
 
@@ -80,7 +77,43 @@
     </div>
     <script src="https://kit.fontawesome.com/0d2515d6e6.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
+      get_goals()
 
+      function get_goals(){
+        var url = 'http://127.0.0.1:8000/api/goal-list/1/'
+        fetch(url)
+            .then((resp) => resp.json())
+            .then(function(response){
+              console.log(response)
+              let curr_array = [];
+              let futur_array = [];
+              response.forEach(function(goal) {
+                if (goal.type == "Current") {
+                  curr_array.push(goal)
+                  } else {
+                    futur_array.push(goal);
+                  }
+                let curr_goals = ""
+                curr_array.forEach(function (goal) {
+                  curr_goals += "<div>" + goal.title + "|";
+                  curr_goals += "|" + goal.category + "|";
+                  curr_goals += "|" + goal.start_date + "|";
+                  curr_goals += "|" + goal.end_date + "||</div>";
+                  curr_goals += "<br>";
+                })                
+                document.getElementById("current_goals_div").innerHTML = curr_goals;
+                let future_goals = "";
+                futur_array.forEach(function (goal) {
+                  future_goals += "<div>" + goal.title + "|";
+                  future_goals += "|" + goal.category + "|";
+                  future_goals += "|" + goal.start_date + "|";
+                  future_goals += "|" + goal.end_date + "|</div>";
+                  future_goals += "<br>";
+                })
+                document.getElementById("future_goals_div").innerHTML = future_goals;
+                })
+              })
+      }
     </script>
 </body>
 

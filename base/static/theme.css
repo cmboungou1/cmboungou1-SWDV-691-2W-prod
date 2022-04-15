@@ -89,6 +89,7 @@ svg.svg-inline--fa {
     margin-bottom: 100px;
     justify-content: space-around;
     align-items: flex-start;
+    padding: 20px !important;
 }
 
 #form-wrapper {
@@ -127,6 +128,10 @@ svg.svg-inline--fa {
     background-color: #ffff;
     -webkit-box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
     box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
+} */
+
+/* .timeline_container {
+    display: flex;
 } */
 
 .header-bar {
@@ -309,5 +314,22 @@ hr {
 }
 
 #addbtn {
+    color: rgb(105, 192, 105);
     float: right;
+}
+
+#current_goals_div {
+    background-color: rgba(0, 0, 0, .03);
+}
+
+#future_goals_div {
+    background-color: rgba(0, 0, 0, .03);
+}
+
+#future_goals_div :hover {
+    background-color: rgb(255, 255, 255);
+}
+
+#current_goals_div :hover {
+    background-color: rgb(255, 255, 255);
 }

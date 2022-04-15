@@ -1,10 +1,9 @@
-from unicodedata import category
 from django.shortcuts import render
 from django.http import JsonResponse
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import GoalSerializer
+from .serializers import GoalSerializer,GpaSerializer,SatSerializer
 from base.models import GoalCategory, Gpa
 from base.models import Sat
 from base.models import Goal
@@ -13,11 +12,11 @@ from base.models import Goal
 @api_view(['GET'])
 def apiOverview(request):
 	api_urls = {
-		'List':'/goal-list/<str:user_id>/',
-		'Detail View':'/goal-detail/<str:user_id>/<str:goal_id>/',
+		'List':'/goal-list/<int:user_id>/',
+		'Detail View':'/goal-detail/<int:user_id>/<int:goal_id>/',
 		'Create':'/goal-create/',
-		'Update':'/goal-update/<str:user_id>/<str:goal_id>/',
-		'Delete':'/goal-delete/<str:user_id>/<str:goal_id>/',
+		'Update':'/goal-update/<int:user_id>/<int:goal_id>/',
+		'Delete':'/goal-delete/<int:user_id>/<int:goal_id>/',
 		}
 
 	return Response(api_urls)
@@ -81,12 +80,17 @@ def goalCreate(request):
 
 @api_view(['POST'])
 def goalUpdate(request, user_id, id):
+
+    print("aa",user_id,id)
     try:
         goal = Goal.objects.get(user=user_id, id=id)
+        print(goal)
         serializer = GoalSerializer(instance=goal, data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
+            print("in heeeeeeeeere")
             serializer.save()
             if request.data["category"] == "SAT":
+                #SatSerializer
                 print("In SAT")
                 sat = goal.sat
                 sat.practice_test_score = request.data["practice_test_score"]
@@ -95,15 +99,21 @@ def goalUpdate(request, user_id, id):
                 sat.save()
             if request.data["category"] == "GPA":
                 print("In GPA")
-                gpa = goal.gpa
-                gpa.current_gpa = request.data["current_gpa"]
-                gpa.library_hours=request.data["library_hours"]
-                gpa.friends_with_high_gpa=request.data["friends_with_high_gpa"]
-                gpa.office_hours=request.data["office_hours"]
-                gpa.save()
+                gpaSerializerVar = GpaSerializer(instance=goal.gpa, data=request.data, partial=True)
+                print("helo1")
+                if gpaSerializerVar.is_valid(raise_exception=True):
+                    print("heloo")
+                    gpaSerializerVar.save()              
+                # gpa = goal.gpa
+                # gpa.current_gpa =request.data["current_gpa"]
+                # gpa.library_hours=request.data["library_hours"]
+                # gpa.friends_with_high_gpa=request.data["friends_with_high_gpa"]
+                # gpa.office_hours=request.data["office_hours"]
+                # gpa.save()
             Response.status_code = 200
         return Response(serializer.data)
-    except:
+    except Exception as e:
+        print("heee",e)
         message = {
             "code":"404",
             "message":"Goal could not be Updated.",

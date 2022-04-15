@@ -22,12 +22,11 @@
     <div class="container">
         <div id="goal-container">
             <div id="goal-wrapper">
+                <div>
+                    <img src="{% static '/logo.png' %}" alt="My image">
+                </div>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container-fluid">
-                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                      </button>
-                      <a class="navbar-brand" href="#">Navbar</a>
                       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
@@ -37,10 +36,6 @@
                             <a class="nav-link" href="{% url 'timeline' %}">Timeline</a>
                           </li>
                         </ul>
-                        <form class="d-flex">
-                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                          <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
                       </div>
                     </div>
                   </nav>
@@ -49,7 +44,7 @@
             <div class="card border-info mb-3">
                 <div class="card-header">Header</div>
                 <div class="card-body">
-                  <h5 class="card-title">Info card title <a href="{% url 'create' %}" id="addbtn"><i class="fas fa-plus"></i> Add Goal</a></h5>
+                  <h5 class="card-title">Info card title <a href="{% url 'create' %}" id="addbtn"><i class="fa-solid fa-plus"></i> Add Goal</a></h5>
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 </div>
             </div>
