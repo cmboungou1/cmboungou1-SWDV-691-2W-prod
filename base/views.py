@@ -17,21 +17,69 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from .models import Goal
 
+class CustomLoginView(LoginView):
+    template_name = "login.html"
+    fields = "__all__"
+    redirect_authenticated_user = True
 
-def list(request):
-    return render(request, 'goal_list.html')
+    def get_success_url(self):
+        return reverse_lazy("list")
 
-def edit(request):
-    return render(request, 'goal_edit.html')
 
-def view(request):
-    return render(request, 'goal_view.html')
+class RegisterPage(FormView):
+    template_name = "register.html"
+    form_class = UserCreationForm
+    redirect_authenticated_user = True
+    success_url = reverse_lazy("login")
+    def form_invalid(self, form):
+        print(form.errors)
+        return super().form_invalid(form)
+    def form_valid(self, form):
+        print("in heeer")
+        user = form.save()
+        if user is not None:
+            login(self.request, user)
+        return super(RegisterPage, self).form_valid(form)
 
-def create(request):
-    return render(request, 'goal_create.html')
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect("timeline")
+        return super(RegisterPage, self).get(*args, **kwargs)
 
-def timeline(request):
-    return render(request, 'timeline.html')
+# def list(request):
+#     return render(request, 'goal_list.html')
+class List(LoginRequiredMixin, ListView):
+    model = Goal
+    context_object_name = "goal"
+    template_name = "goal_list.html"
+
+# def edit(request):
+#     return render(request, 'goal_edit.html')
+class Edit(LoginRequiredMixin, ListView):
+    model = Goal
+    context_object_name = "goal"
+    template_name = "goal_edit.html"
+
+# def view(request):
+#     return render(request, 'goal_view.html')
+class View(LoginRequiredMixin, ListView):
+    model = Goal
+    context_object_name = "goal"
+    template_name = "goal_view.html"
+
+# def create(request):
+#     return render(request, 'goal_create.html')
+class Create(LoginRequiredMixin, ListView):
+    model = Goal
+    context_object_name = "goal"
+    template_name = "goal_create.html"
+
+# def timeline(request):
+#     return render(request, 'timeline.html')
+class Timeline(LoginRequiredMixin, ListView):
+    model = Goal
+    context_object_name = "goal"
+    template_name = "timeline.html"
 
 # class RegisterPage(FormView):
 #     template_name = "base/register.html"

@@ -1,6 +1,15 @@
 from django.urls import URLPattern, path
 from . import views
 from django.contrib.auth.views import LogoutView
+from .views import (
+    CustomLoginView,
+    RegisterPage,
+    Timeline,
+    View,
+    Create,
+    List,
+    Edit,
+)
 
 # urlpatterns = [
 #     path("login/", CustomLoginView.as_view(), name="login"),
@@ -14,9 +23,12 @@ from django.contrib.auth.views import LogoutView
 # ]
 
 urlpatterns = [
-    path("", views.list, name="list"),
-    path("edit/", views.edit, name="edit"),
-    path("view/", views.view, name="view"),
-    path("create/", views.create, name="create"),
-    path("timeline/", views.timeline, name="timeline"),
+    path("list", List.as_view(), name="list"),
+    path("login/", CustomLoginView.as_view(), name="login"),
+    path("logout/", LogoutView.as_view(next_page="login"), name="logout"),
+    path("register/", RegisterPage.as_view(), name="register"),
+    path("edit/", Edit.as_view(), name="edit"),
+    path("view/", View.as_view(), name="view"),
+    path("create/", Create.as_view(), name="create"),
+    path("timeline/", Timeline.as_view(), name="timeline"),
 ]

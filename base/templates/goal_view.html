@@ -9,9 +9,7 @@
     <meta name="This is my style guide" content="">
     <meta name="Christ Mboungou" content="">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
     <title>Goal-Setter</title>
-
     <!--  Place Custom Styles Below -->
     <link rel="stylesheet" href="{% static '/theme.css' %}">
 	<!-- Include script for font awesome icon library -->
@@ -19,31 +17,39 @@
 </head>
 
 <body>
+    <div class="header-bar">
+        <div>
+            <img src="{% static '/logo2.png' %}" class="img-fluid" alt="Goal setter sm logo" id="small_logo">
+        </div>
+        <div id="header_h1">
+            <h1><i class="fa-solid fa-user-large"></i> Hello {{request.user|title}}</h1>
+        </div>
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'logout'%}">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}    
+    </div>
     <div class="container">
         <div id="goal-container">
             <div id="goal-wrapper">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div>
+                    <img src="{% static '/logo.png' %}" class="img-fluid" id="large_logo" alt="Goal setter logo">
+                </div>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar_id">
                     <div class="container-fluid">
-                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                      </button>
-                      <a class="navbar-brand" href="#">Navbar</a>
                       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
-                            <a class="nav-link" href="{% url 'list' %}">Home</a>
+                            <a class="nav-link"  href="{% url 'list' %}">Home</a>
                           </li>
                           <li class="nav-item">
                             <a class="nav-link" href="{% url 'timeline' %}">Timeline</a>
                           </li>
                           <li class="nav-item">
-                            <a  class="nav-link active" aria-current="page" href="{% url 'view' %}">View</a>
+                            <a class="nav-link active" aria-current="page" href="{% url 'view' %}">View</a>
                           </li>
                         </ul>
-                        <form class="d-flex">
-                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                          <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
                       </div>
                     </div>
                   </nav>
@@ -52,28 +58,11 @@
             <div class="card border-info mb-3">
                 <div class="card-header">Header</div>
                 <div class="card-body">
-                  <h5 class="card-title">Info card title <a href="{% url 'create' %}" id="addbtn"><i class="fas fa-plus"></i> Add Goal</a></h5>
+                  <h5 class="card-title">Info card title <a href="{% url 'create' %}" id="addbtn"><i class="fa-solid fa-plus"></i> Add Goal</a></h5>
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 </div>
             </div>
-            <div id="list-wrapper">
-
-            </div>
         </div>
-        <div id="deleteModal" class="modal">
-            <span onclick="document.getElementById('deleteModal').style.display='none'" class="close" title="Close Modal">×</span>
-            <form class="modal-content" action="/action_page.php">
-              <div class="modalContainer">
-                <h1>Delete Goal</h1>
-                <p>Are you sure you want to delete your goal?</p>
-              
-                <div class="clearfix">
-                  <button type="button" onclick="document.getElementById('deleteModal').style.display='none'" class="cancelbtn">Cancel</button>
-                  <button type="button" onclick="deleteItem()" class="deletebtn">Delete</button>
-                </div>
-              </div>
-            </form>
-          </div>
     </div>
 
     <div id="footer">
@@ -83,7 +72,6 @@
     </div>
     <script src="https://kit.fontawesome.com/0d2515d6e6.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
-
     </script>
 </body>
 
