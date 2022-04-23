@@ -10,6 +10,7 @@
     <meta name="Christ Mboungou" content="">
 	  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Goal-Setter</title>
+    <link rel="icon" type="image/png" href="{% static '/sm-1.png' %}">
     <!--  Place Custom Styles Below -->
     <link rel="stylesheet" href="{% static '/theme.css' %}">
 	  <!-- Include script for font awesome icon library -->
@@ -55,7 +56,7 @@
             <div class="card border-info mb-3">
                 <div class="card-header">Header</div>
                 <div class="card-body">
-                  <h5 class="card-title">Info card title <a href="{% url 'create' %}" id="addbtn"><i class="fa-solid fa-plus"></i> Add Future Goal</a></h5>
+                  <h5 class="card-title">Info card title <a href="{% url 'create' %}" id="addbtn"><i class="fa-solid fa-plus"></i> Add Goal</a></h5>
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 </div>
             </div>
@@ -80,18 +81,20 @@
             </div>
           </div>
     </div>
-
     <div id="footer">
-        <div class="container">
+        <div>
             <p >Christ M. production</p>
         </div>
     </div>
+  </div>
+</body>
     <script src="https://kit.fontawesome.com/0d2515d6e6.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
+      let userId = "{{request.user.id}}"
       get_goals()
-
       function get_goals(){
-        var url = 'http://127.0.0.1:8000/api/goal-list/1/'
+        let url = 'https://goal-setter-app1.herokuapp.com/api/goal-list/'+userId+'/'
+        // var url = 'http://127.0.0.1:8000/api/goal-list/'+userId+'/'
         fetch(url)
             .then((resp) => resp.json())
             .then(function(response){
@@ -100,32 +103,42 @@
               let futur_array = [];
               response.forEach(function(goal) {
                 if (goal.type == "Current") {
-                  curr_array.push(goal)
-                  } else {
-                    futur_array.push(goal);
+                  if (goal.start_date != null){
+                    goal.start_date = goal.start_date.split("T")[0]
                   }
+                  if (goal.end_date != null){
+                    goal.end_date = goal.end_date.split("T")[0] 
+                  }
+                  curr_array.push(goal)
+                } else {
+                  if (goal.start_date != null){
+                    goal.start_date = goal.start_date.split("T")[0]
+                  }
+                  if (goal.end_date != null){
+                    goal.end_date = goal.end_date.split("T")[0] 
+                  }
+                  futur_array.push(goal);
+                }
                 let curr_goals = ""
                 curr_array.forEach(function (goal) {
-                  curr_goals += "<div>" + goal.title + "|";
-                  curr_goals += "|" + goal.category + "|";
-                  curr_goals += "|" + goal.start_date + "|";
-                  curr_goals += "|" + goal.end_date + "||</div>";
+                  curr_goals += "<div><b>Title: </b>" + goal.title + "<br>";
+                  curr_goals += "<b>Category: </b>" + goal.category + "<br>";
+                  curr_goals += "<b>Start Date: </b>" + goal.start_date + "<br>";
+                  curr_goals += "<b>End Date: </b>" + goal.end_date + "</div>";
                   curr_goals += "<br>";
                 })                
                 document.getElementById("current_goals_div").innerHTML = curr_goals;
                 let future_goals = "";
                 futur_array.forEach(function (goal) {
-                  future_goals += "<div>" + goal.title + "|";
-                  future_goals += "|" + goal.category + "|";
-                  future_goals += "|" + goal.start_date + "|";
-                  future_goals += "|" + goal.end_date + "|</div>";
+                  future_goals += "<div><b>Title: </b>" + goal.title + "<br>";
+                  future_goals += "<b>Category: </b>" + goal.category + "<br>";
+                  future_goals += "<b>Start Date: </b>" + goal.start_date + "<br>";
+                  future_goals += "<b>End Date: </b>" + goal.end_date + "</div>";
                   future_goals += "<br>";
                 })
                 document.getElementById("future_goals_div").innerHTML = future_goals;
                 })
               })
-      }
-    </script>
-</body>
-
+        }
+  </script>
 </html>

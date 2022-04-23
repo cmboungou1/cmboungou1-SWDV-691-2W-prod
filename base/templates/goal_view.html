@@ -8,70 +8,193 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="This is my style guide" content="">
     <meta name="Christ Mboungou" content="">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Goal-Setter</title>
+    <link rel="icon" type="image/png" href="{% static '/sm-1.png' %}">
     <!--  Place Custom Styles Below -->
     <link rel="stylesheet" href="{% static '/theme.css' %}">
-	<!-- Include script for font awesome icon library -->
+	  <!-- Include script for font awesome icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
     <div class="header-bar">
-        <div>
-            <img src="{% static '/logo2.png' %}" class="img-fluid" alt="Goal setter sm logo" id="small_logo">
-        </div>
-        <div id="header_h1">
-            <h1><i class="fa-solid fa-user-large"></i> Hello {{request.user|title}}</h1>
-        </div>
-        {% if request.user.is_authenticated %}
-        <a href="{% url 'logout'%}">Logout</a>
-        {% else %}
-        <a href="{% url 'login' %}">Login</a>
-        {% endif %}    
+      <div>
+          <img src="{% static '/logo2.png' %}" class="img-fluid" alt="Goal setter sm logo" id="small_logo">
+      </div>
+      <div id="header_h1">
+          <h1><i class="fa-solid fa-user-large"></i> Hello {{request.user|title}}</h1>
+      </div>
+      {% if request.user.is_authenticated %}
+      <a href="{% url 'logout'%}">Logout</a>
+      {% else %}
+      <a href="{% url 'login' %}">Login</a>
+      {% endif %}   
     </div>
     <div class="container">
         <div id="goal-container">
             <div id="goal-wrapper">
-                <div>
-                    <img src="{% static '/logo.png' %}" class="img-fluid" id="large_logo" alt="Goal setter logo">
-                </div>
+              <div>
+                <img src="{% static '/logo.png' %}" class="img-fluid" id="large_logo" alt="Goal setter logo">
+              </div>
                 <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar_id">
                     <div class="container-fluid">
                       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                           <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'list' %}">Home</a>
+                            <a class="nav-link" href="{% url 'list' %}">Home</a>
                           </li>
                           <li class="nav-item">
                             <a class="nav-link" href="{% url 'timeline' %}">Timeline</a>
+                          </li>
+                          <li class="nav-item">
+                            <a  class="nav-link active" aria-current="page" href="{% url 'view' %}">View</a>
                           </li>
                         </ul>
                       </div>
                     </div>
                   </nav>
             </div>
-
             <div class="card border-info mb-3">
                 <div class="card-header">Header</div>
                 <div class="card-body">
-                  <h5 class="card-title">Info card title <a href="{% url 'create' %}" id="addbtn"><i class="fa-solid fa-plus"></i> Add Goal</a></h5>
+                  <h5 class="card-title">Info card title</h5>
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <form class="needs-validation" id="goalForm" novalidate>
+                    <div class="form-row">
+                      <div class="col-md-4 mb-3">
+                        <div>
+                          <h1><u>Title:</u></h1>
+                          <p id="goalTitle"></p>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div>
+                          <h1><u>Start Date:</u></h1>
+                          <p id="goalStartDate"></p>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div>
+                          <h1><u>End Date:</u></h1>
+                          <p id="goalEndDate"></p>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div>
+                          <h1><u>Goal Type:</u></h1>
+                          <p id="goalType"></p>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div>
+                          <h1><u>Goal Completed:</u></h1>
+                          <p id="goalCompleted"></p>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div>
+                          <h1><u>Description:</u></h1>
+                          <p id="goalDescription"></p>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <div>
+                          <h1><u>Category:</u></h1>
+                          <p id="goalCategory"></p>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3" id="categoryFieldDiv1"></div>
+                      <div class="col-md-4 mb-3" id="categoryFieldDiv2"></div>
+                      <div class="col-md-4 mb-3" id="categoryFieldDiv3"></div>
+                      <div class="col-md-4 mb-3" id="categoryFieldDiv4"></div>                     
+                    </div>
+                  </form>
                 </div>
-            </div>
-            <div id="list-wrapper">
             </div>
         </div>
     </div>
-
     <div id="footer">
         <div class="container">
             <p >Christ M. production</p>
         </div>
     </div>
-
+    <script src="https://kit.fontawesome.com/0d2515d6e6.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
+        let goal_to_view = getGoalRec()
+        populateGoal()
+        function getGoalRec(){
+            return JSON.parse(localStorage.getItem("Goal-To-View"));
+        }
 
+        function populateGoal(){
+            let startDate = goal_to_view.start_date
+            let endDate = goal_to_view.end_date
+            if (startDate != null){
+                startDate = goal_to_view.start_date.split("T")[0]
+            }
+            if (endDate != null){
+                endDate = goal_to_view.end_date.split("T")[0] 
+            }
+            document.getElementById("goalTitle").innerHTML = goal_to_view.title
+            document.getElementById("goalDescription").innerHTML = goal_to_view.description
+            document.getElementById("goalCategory").innerHTML = goal_to_view.category
+            document.getElementById("goalCompleted").innerHTML = goal_to_view.completed;
+            document.getElementById("goalStartDate").innerHTML = startDate
+            document.getElementById("goalEndDate").innerHTML = endDate 
+            document.getElementById("goalType").innerHTML = goal_to_view.type
+
+            populateGPAorSAT(goal_to_view)
+        }
+
+        function populateGPAorSAT(goal_to_view){
+            if (goal_to_view.category == "GPA"){
+                let categoryField1 = document.getElementById("categoryFieldDiv1")
+                categoryField1.innerHTML = `
+                <div>
+                  <h1><u>Current GPA:</u></h1>
+                  <p id="curr_gpa">`+goal_to_view.gpa.current_gpa+`</p>
+                </div>`
+                let categoryField2 = document.getElementById("categoryFieldDiv2")
+                categoryField2.innerHTML =`
+                    <div>
+                      <h1><u>Number of friends with high GPA:</u></h1>
+                      <p id="friends_gpa">`+goal_to_view.gpa.friends_with_high_gpa+`</p>
+                    </div>`
+                let categoryField3 = document.getElementById("categoryFieldDiv3")
+                categoryField3.innerHTML =`
+                    <div>
+                      <h1><u>Total library Hours:</u></h1>
+                      <p id="lib_hours">`+goal_to_view.gpa.library_hours+`</p>
+                    </div>`
+                let categoryField4 = document.getElementById("categoryFieldDiv4")
+                categoryField4.innerHTML =`                   
+                    <div>
+                      <h1><u>Office Hours:</u></h1>
+                      <p id="office_hours">`+goal_to_view.gpa.office_hours+`</p>
+                    </div>`
+            }
+            if (goal_to_view.category == "SAT"){
+                let categoryField1 = document.getElementById("categoryFieldDiv1")
+                categoryField1.innerHTML = `
+                <div>
+                  <h1><u>Category:</u></h1>
+                  <p id="prac_test">`+goal_to_view.sat.practice_test_score+`</p>
+                </div>`
+                let categoryField2 = document.getElementById("categoryFieldDiv2")
+                categoryField2.innerHTML =`
+                <div>
+                  <h1><u>Private tutor time:</u></h1>
+                  <p id="priv_tut_tim">`+goal_to_view.sat.private_tutor_time+`</p>
+                </div>`
+                let categoryField3 = document.getElementById("categoryFieldDiv3")
+                categoryField3.innerHTML =`                        
+                <div>
+                  <h1><u>Do you have a strategy?:</u></h1>
+                  <p id="have_stra">`+goal_to_view.sat.have_a_strategy+`</p>
+                </div>`
+            }
+        }   
     </script>
 </body>
 
