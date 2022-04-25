@@ -1,107 +1,150 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="This is my style guide" content="">
-    <meta name="Christ Mboungou" content="">
-	  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="This is my style guide" content="" />
+    <meta name="Christ Mboungou" content="" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
     <title>Goal-Setter</title>
     <!--  Place Custom Styles Below -->
-    <link rel="stylesheet" href="{% static '/theme.css' %}">
-	  <!-- Include script for font awesome icon library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static '/theme.css' %}" />
+    <!-- Include script for font awesome icon library -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <style>
+      .cascading-right {
+        margin-right: -50px;
+      }
+
+      @media (max-width: 991.98px) {
         .cascading-right {
-          margin-right: -50px;
+          margin-right: 0;
         }
-    
-        @media (max-width: 991.98px) {
-          .cascading-right {
-            margin-right: 0;
-          }
-        }
+      }
 
-        #registration_pic{
-            border-radius: 8px;
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,.07),0 10px 10px -5px rgba(0,0,0,.05);
-        }
+      #registration_pic {
+        border-radius: 8px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.07),
+          0 10px 10px -5px rgba(0, 0, 0, 0.05);
+      }
 
-        #linergradient {
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,.07),0 10px 10px -5px rgba(0,0,0,.05);
-            border-radius: 8px;
-        }
+      #linergradient {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.07),
+          0 10px 10px -5px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+      }
 
-        #id_username, #id_password1, #id_password2 {
-            width: 100%;
-        }
+      #id_username,
+      #id_password1,
+      #id_password2 {
+        width: 100%;
+      }
 
-        .errorlist {
-            color: #f64a8a;
-        }
+      .errorlist {
+        color: #f64a8a;
+      }
 
-        ul {
-            font-size: 80%;
-        }
+      ul {
+        font-size: 80%;
+      }
 
-        .helptext {
-            font-size: 80%;
-        }
+      .helptext {
+        font-size: 80%;
+      }
 
-        #id_password1 {
-            margin-top: 40px;
-        }
+      #id_password1 {
+        margin-top: 40px;
+      }
 
-        label {
-            font-weight: lighter;
-        }
+      label {
+        font-weight: lighter;
+      }
+    </style>
+  </head>
 
-      </style>
-</head>
-
-<body>
-<img src="{% static '/logo_black.png' %}" class="img-fluid center" alt="Goal setter sm logo" >
-<!-- Section: Design Block -->
-<section class="text-center text-lg-start"> 
-    <!-- Jumbotron -->
-    <div class="container py-4">
-      <div class="row g-0 align-items-center">
-        <div class="col-lg-6 mb-5 mb-lg-0">
-          <div class="card cascading-right" id="linergradient">
-            <div class="card-body p-5 shadow-5 text-center">
-              <h2 class="fw-bold mb-5">Sign up now</h2>
-              <form method="POST">
-                {% csrf_token %}
-                <!-- 2 column grid layout with text inputs for the first and last names -->
-                <table>  
-                    {{ form.as_table }}  
-                     <tr>  
-                        <td></td>   
-                    </tr>  
-                 </table>
-                 <br>  
-                <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4">
-                  Sign up
-                </button>
-                <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
-              </form>
+  <body>
+    <img
+      src="{% static '/logo.png' %}"
+      class="img-fluid center"
+      id="reg_img"
+      alt="Goal setter sm logo"
+    />
+    <!-- Section: Design Block -->
+    <section class="text-center text-lg-start">
+      <!-- Jumbotron -->
+      <div class="container py-4">
+        <div class="row g-0 align-items-center">
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <div class="card cascading-right" id="linergradient">
+              <div class="card-body p-5 shadow-5 text-center">
+                <h2 class="fw-bold mb-5">Sign up now</h2>
+                <form method="POST">
+                  {% csrf_token %}
+                  <!-- 2 column grid layout with text inputs for the first and last names -->
+                  <table>
+                    {{ form.as_table }}
+                    <tr>
+                      <td></td>
+                    </tr>
+                  </table>
+                  <br />
+                  <!-- Submit button -->
+                  <button type="submit" class="btn btn-primary btn-block mb-4">
+                    Sign up
+                  </button>
+                  <p>
+                    Already have an account?
+                    <a href="{% url 'login' %}">Login</a>
+                  </p>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-lg-6 mb-5 mb-lg-0">
-            <img src="{%static 'register.png'%}" class="img-fluid" alt="registration logo" id="registration_pic"/>
-            
-            <!-- <img src="{%static 'logo.png'%}" class="img-fluid" alt="Goal setter sm logo"id="registration_pic"/> -->
-            
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <img
+              src="{%static 'register.png'%}"
+              class="img-fluid"
+              alt="registration logo"
+              id="registration_pic"
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <!-- Jumbotron -->
-  </section>
-  <!-- Section: Design Block -->
-</body>
-
+      <!-- Jumbotron -->
+    </section>
+    <!-- Section: Design Block -->
+    <footer class="py-3 my-4">
+      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item">
+          <a href="#" class="nav-link px-2 text-muted">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link px-2 text-muted">Features</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link px-2 text-muted">Pricing</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link px-2 text-muted">FAQs</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link px-2 text-muted">About</a>
+        </li>
+      </ul>
+      <p class="text-center text-muted">&copy; 2021 Company, Inc</p>
+    </footer>
+  </body>
 </html>

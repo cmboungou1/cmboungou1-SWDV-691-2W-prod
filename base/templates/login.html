@@ -67,11 +67,14 @@
             margin-top: 30px;
         }
 
+        #login-bar{
+          background-color: #34568B;
+        }
       </style>
 </head>
 
 <body>
-    <div class="header-bar">
+    <div class="header-bar" id="login-bar" >
         <img src="{% static '/logo2.png' %}" class="img-fluid center" alt="Goal setter sm logo" id="small_logo">
         <h1>Login Page</h1>
     </div>
@@ -83,7 +86,7 @@
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                 <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                  <p class="lead fw-normal mb-0 me-3">Sign in <i class="fa-solid fa-desktop"></i></p>
+                  <p class="lead fw-normal mb-0 me-3">Sign in <i class="fa-solid fa-user-large"></i></p>
                 </div>
                 <div class="divider d-flex align-items-center my-4">
                   <p class="text-center fw-bold mx-3 mb-0">Welcome!</p>
@@ -109,14 +112,29 @@
                 </div>    
               </form>
             </div>
-          </div>
-        </div>
-        <div id="footer">
-            <div class="container">
-                <p >Christ M. production</p>
-            </div>
         </div>
         </div>
+      </div>
+        <footer class="py-3 my-4">
+          <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">Features</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">Pricing</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">FAQs</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">About</a>
+            </li>
+          </ul>
+          <p class="text-center text-muted">&copy; 2021 Company, Inc</p>
+        </footer>
       </section>
 </body>
 
