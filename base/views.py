@@ -80,7 +80,11 @@ class Timeline(LoginRequiredMixin, ListView):
     model = Goal
     context_object_name = "goal"
     template_name = "timeline.html"
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['impact'] = Goal.objects.all()
+        return context
 # class RegisterPage(FormView):
 #     template_name = "base/register.html"
 #     form_class = UserCreationForm

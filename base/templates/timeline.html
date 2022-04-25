@@ -136,7 +136,11 @@
           <div class="col-md-4 mb-3">
             <div class="card bg-light text-dark">
               <div class="card-header">Impact</div>
-              <div class="card-body">Light card</div>
+              <div class="card-body">
+                {% for impact in impact %}
+                <li>{{ impact.title }}</li>
+                {% endfor %}
+              </div>
             </div>
           </div>
         </div>
