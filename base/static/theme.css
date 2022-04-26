@@ -386,3 +386,7 @@ hr {
 #container-fluid-id {
   max-width: 5%;
 }
+
+#card-header-id {
+  font-size: 200%;
+}
