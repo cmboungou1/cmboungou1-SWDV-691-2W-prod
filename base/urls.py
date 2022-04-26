@@ -23,6 +23,7 @@ from .views import (
 # ]
 
 urlpatterns = [
+    path("", CustomLoginView.as_view(), name="login"),
     path("list", List.as_view(), name="list"),
     path("login/", CustomLoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(next_page="login"), name="logout"),

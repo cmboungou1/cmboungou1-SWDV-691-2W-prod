@@ -3,6 +3,7 @@ from multiprocessing import context
 from pydoc import describe
 from pyexpat import model
 from re import template
+from urllib import request
 from django.shortcuts import redirect, render
 from django.views.generic.list import ListView
 
@@ -16,6 +17,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from .models import Goal
+
 
 class CustomLoginView(LoginView):
     template_name = "login.html"
@@ -81,6 +83,21 @@ class Timeline(LoginRequiredMixin, ListView):
     context_object_name = "goal"
     template_name = "timeline.html"
 
+    def get_neg_impact(self):
+        user_id = self.request.user.id
+        queryset= Goal.objects.all()
+        goals = queryset.filter(user=user_id)
+        return goals
+
+    def get_pos_impact(self):
+        Goal.objects.all()
+        return "We made it"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['neg_impact'] = self.get_neg_impact()
+        context['pos_impact'] = self.get_pos_impact()
+        return context
 # class RegisterPage(FormView):
 #     template_name = "base/register.html"
 #     form_class = UserCreationForm
@@ -97,12 +114,6 @@ class Timeline(LoginRequiredMixin, ListView):
 #         if self.request.user.is_authenticated:
 #             return redirect("goals")
 #         return super(RegisterPage, self).get(*args, **kwargs)
-
-
-
-
-
-
 
 # class CustomLoginView(LoginView):
 #     template_name = "base/login.html"
@@ -164,13 +175,4 @@ class Timeline(LoginRequiredMixin, ListView):
 #         return super(GoalCreate, self).form_valid(form)
 
 
-# class GoalUpdate(LoginRequiredMixin, UpdateView):
-#     model = Goal
-#     fields = ["title", "description", "complete"]
-#     success_url = reverse_lazy("goals")
 
-
-# class DeleteView(LoginRequiredMixin, DeleteView):
-#     model = Goal
-#     context_object_name = "goal"
-#     success_url = reverse_lazy("goals")
