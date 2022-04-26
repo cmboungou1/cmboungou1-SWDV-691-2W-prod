@@ -159,11 +159,6 @@ class Timeline(LoginRequiredMixin, ListView):
 #         return context
 
 
-# class GoalDetail(LoginRequiredMixin, DetailView):
-#     model = Goal
-#     context_object_name = "goal"
-#     template_name = "base/goal.html"
-
 
 # class GoalCreate(LoginRequiredMixin, CreateView):
 #     model = Goal
