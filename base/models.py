@@ -21,7 +21,7 @@ class Goal(models.Model):
         return self.title
 
     class Meta:
-        ordering = ["completed"]
+        ordering = ["id"]
 
 class Sat(models.Model):
     goal = models.OneToOneField(Goal,on_delete=models.CASCADE,related_name="sat")

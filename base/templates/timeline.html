@@ -139,10 +139,9 @@
             <div class="card bg-light text-dark">
               <div class="card-header">Impact</div>
               <div class="card-body">
-                <ul>
-                  <li>{{ neg_impact }}</li>
-                  <li>{{ pos_impact }}</li>
-                  <li>{{ ave_impact }}</li>
+                <div class="alert alert-success">{{ pos_impact }}</div>
+                <div class="alert alert-warning">{{ ave_impact }}</div>
+                <div class="alert alert-danger">{{ neg_impact }}</div>
                 </ul>
               </div>
             </div>
