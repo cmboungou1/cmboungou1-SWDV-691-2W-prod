@@ -107,13 +107,25 @@
                   <div class="valid-feedback">Looks good!</div>
                 </div>
                 <div class="col-md-4 mb-3">
-                  <label for="goalDescription">Description</label>
+                  <label for="goalStartDate">Start Date*</label>
                   <input
-                    name="description"
-                    type="text"
+                    name="start_date"
+                    type="date"
+                    min=""
                     class="form-control"
-                    id="goalDescription"
-                    placeholder="Description"
+                    id="goalStartDate"
+                    required
+                  />
+                  <div class="valid-feedback">Looks good!</div>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="goalEndDate">End Date*</label>
+                  <input
+                    name="end_date"
+                    type="date"
+                    class="form-control"
+                    id="goalEndDate"
+                    required
                   />
                   <div class="valid-feedback">Looks good!</div>
                 </div>
@@ -128,6 +140,17 @@
                     <option value="Current">Current</option>
                     <option value="Future">Future</option>
                   </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="goalDescription">Description</label>
+                  <input
+                    name="description"
+                    type="text"
+                    class="form-control"
+                    id="goalDescription"
+                    placeholder="Description"
+                  />
+                  <div class="valid-feedback">Looks good!</div>
                 </div>
                 <div class="form-check">
                   <input
@@ -152,29 +175,6 @@
                     <option value="GPA">GPA</option>
                     <option value="SAT">SAT</option>
                   </select>
-                </div>
-                <div class="col-md-4 mb-3">
-                  <label for="goalStartDate">Start Date*</label>
-                  <input
-                    name="start_date"
-                    type="date"
-                    min=""
-                    class="form-control"
-                    id="goalStartDate"
-                    required
-                  />
-                  <div class="valid-feedback">Looks good!</div>
-                </div>
-                <div class="col-md-4 mb-3">
-                  <label for="goalEndDate">End Date*</label>
-                  <input
-                    name="end_date"
-                    type="date"
-                    class="form-control"
-                    id="goalEndDate"
-                    required
-                  />
-                  <div class="valid-feedback">Looks good!</div>
                 </div>
                 <div class="col-md-4 mb-3" id="categoryFieldDiv1"></div>
                 <div class="col-md-4 mb-3" id="categoryFieldDiv2"></div>
@@ -279,7 +279,7 @@
           categoryField1.innerHTML =
             `
                 <label for="curr_gpa">Current GPA*</label>
-                <input name="current_gpa" type="number" step="0.01" class="form-control" id="curr_gpa" value="` +
+                <input name="current_gpa" type="number" min="0" step="0.01" class="form-control" id="curr_gpa" value="` +
             goal.gpa.current_gpa +
             `" placeholder="Current GPA" required>
                 <div class="valid-feedback">
@@ -289,7 +289,7 @@
           categoryField2.innerHTML =
             `
                     <label for="friends_gpa">Number of friends with high GPA*</label>
-                    <input name="friends_with_high_gpa" type="number" class="form-control" id="friends_gpa" value="` +
+                    <input name="friends_with_high_gpa" type="number" min="0" class="form-control" id="friends_gpa" value="` +
             goal.gpa.friends_with_high_gpa +
             `" placeholder="Number of friends with high GPA" required>
                     <div class="valid-feedback">
@@ -299,7 +299,7 @@
           categoryField3.innerHTML =
             `
                     <label for="lib_hours">Total library Hours*</label>
-                    <input name="library_hours" type="number" class="form-control" id="lib_hours" value="` +
+                    <input name="library_hours" type="number" min="0" class="form-control" id="lib_hours" value="` +
             goal.gpa.library_hours +
             `" placeholder="Library Hours" required>
                     <div class="valid-feedback">
@@ -309,7 +309,7 @@
           categoryField4.innerHTML =
             `
                     <label for="Total office_hours">Office Hours*</label>
-                    <input name="office_hours" type="number" class="form-control" id="office_hours" value="` +
+                    <input name="office_hours" type="number" min="0" class="form-control" id="office_hours" value="` +
             goal.gpa.office_hours +
             `" placeholder="Office Hours" required>
                     <div class="valid-feedback">
@@ -322,7 +322,7 @@
           categoryField1.innerHTML =
             `
                 <label for="prac_test">Practice test score*</label>
-                <input name="practice_test_score" type="number" class="form-control" id="prac_test" value="` +
+                <input name="practice_test_score" type="number" min="0" class="form-control" id="prac_test" value="` +
             goal.sat.practice_test_score +
             `" placeholder="Practice test score" required>
                 <div class="valid-feedback">
@@ -332,7 +332,7 @@
           categoryField2.innerHTML =
             `
                 <label for="priv_tut_tim">Hours Spent with a private tutor*</label>
-                <input name="private_tutor_time" type="number" class="form-control" id="priv_tut_tim" value="` +
+                <input name="private_tutor_time" type="number" min="0" class="form-control" id="priv_tut_tim" value="` +
             goal.sat.private_tutor_time +
             `" placeholder="Private tutor time" required>
                 <div class="valid-feedback">

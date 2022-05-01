@@ -81,7 +81,6 @@ def goalCreate(request):
 @api_view(['POST'])
 def goalUpdate(request, user_id, id):
 
-    print("aa",user_id,id)
     try:
         goal = Goal.objects.get(user=user_id, id=id)
         print(goal)
@@ -100,9 +99,7 @@ def goalUpdate(request, user_id, id):
             if request.data["category"] == "GPA":
                 print("In GPA")
                 gpaSerializerVar = GpaSerializer(instance=goal.gpa, data=request.data, partial=True)
-                print("helo1")
                 if gpaSerializerVar.is_valid(raise_exception=True):
-                    print("heloo")
                     gpaSerializerVar.save()              
                 # gpa = goal.gpa
                 # gpa.current_gpa =request.data["current_gpa"]

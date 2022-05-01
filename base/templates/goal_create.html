@@ -265,28 +265,28 @@
           let categoryField1 = document.getElementById("categoryFieldDiv1");
           categoryField1.innerHTML = `
           <label for="curr_gpa">Current GPA*</label>
-          <input name="current_gpa" type="number" step="0.01" class="form-control" id="curr_gpa" value="" placeholder="Current GPA" required>
+          <input name="current_gpa" type="number" step="0.01" min="0" class="form-control" id="curr_gpa" value="" placeholder="Current GPA" required>
           <div class="valid-feedback">
               Looks good!
           </div>`;
           let categoryField2 = document.getElementById("categoryFieldDiv2");
           categoryField2.innerHTML = `
               <label for="friends_gpa">Number of friends with high GPA*</label>
-              <input name="friends_with_high_gpa" type="number" class="form-control" id="friends_gpa" value="" placeholder="Number of friends with high GPA" required>
+              <input name="friends_with_high_gpa" type="number" min="0" class="form-control" id="friends_gpa" value="" placeholder="Number of friends with high GPA" required>
               <div class="valid-feedback">
                   Looks good!
               </div>`;
           let categoryField3 = document.getElementById("categoryFieldDiv3");
           categoryField3.innerHTML = `
               <label for="lib_hours">Total library Hours*</label>
-              <input name="library_hours" type="number" class="form-control" id="lib_hours" value="" placeholder="Library Hours" required>
+              <input name="library_hours" type="number" min="0" class="form-control" id="lib_hours" value="" placeholder="Library Hours" required>
               <div class="valid-feedback">
                   Looks good!
               </div>`;
           let categoryField4 = document.getElementById("categoryFieldDiv4");
           categoryField4.innerHTML = `
               <label for="Total office_hours">Office Hours*</label>
-              <input name="office_hours" type="number" class="form-control" id="office_hours" value="" placeholder="Office Hours" required>
+              <input name="office_hours" type="number" min="0" class="form-control" id="office_hours" value="" placeholder="Office Hours" required>
               <div class="valid-feedback">
                   Looks good!
               </div>
@@ -296,14 +296,14 @@
           let categoryField1 = document.getElementById("categoryFieldDiv1");
           categoryField1.innerHTML = `
             <label for="prac_test">Practice test score*</label>
-            <input name="practice_test_score" type="number" class="form-control" id="prac_test" value="" placeholder="Practice test score" required>
+            <input name="practice_test_score" type="number" min="0" class="form-control" id="prac_test" value="" placeholder="Practice test score" required>
             <div class="valid-feedback">
                 Looks good!
             </div>`;
           let categoryField2 = document.getElementById("categoryFieldDiv2");
           categoryField2.innerHTML = `
             <label for="priv_tut_tim">Hours Spent with a private tutor*</label>
-            <input name="private_tutor_time" type="number" class="form-control" id="priv_tut_tim" value="" placeholder="Private tutor time" required>
+            <input name="private_tutor_time" type="number" min="0" class="form-control" id="priv_tut_tim" value="" placeholder="Private tutor time" required>
             <div class="valid-feedback">
                 Looks good!
             </div>`;

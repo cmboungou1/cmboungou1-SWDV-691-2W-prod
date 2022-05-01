@@ -120,10 +120,16 @@ class Timeline(LoginRequiredMixin, ListView):
         def get_neg_impact(category):
             # gpa negative
             if category == "GPA":
-                self.neg_gpa_print += ""+self.neg_gpa_print+" Your GPA is below average. We recommend that you spend time at the library during office hours and make friends with a high GPA if you haven't done so."
+                self.neg_gpa_print = ""+self.neg_gpa_print+" Your GPA is below average. We recommend that you spend time at the library during office hours and make friends with a high GPA if you haven't done so."
+            # gpa 0 negative
+            if category == "GPA_0":
+                self.neg_gpa_print = ""+self.neg_gpa_print+" Your GPA is 0? this can't be right."
             # sat negative
             if category == "SAT":
-                self.neg_sat_print += ""+self.neg_sat_print+" Your SAT practice test score is below average. We recommend hiring a private tutor and creating a test-taking strategy if you haven't done so."
+                self.neg_sat_print = ""+self.neg_sat_print+" Your SAT practice test score is below average. We recommend hiring a private tutor and creating a test-taking strategy if you haven't done so."
+            # sat negative
+            if category == "SAT_0":
+                self.neg_sat_print = ""+self.neg_sat_print+" Your SAT practice test score is 0? this can't be right."
             # tutor negative
             if category == "TUTOR":
                 self.neg_tutor_print += ""+self.neg_tutor_print+" We recommend that you spend more time with an SAT tutor."
@@ -160,7 +166,7 @@ class Timeline(LoginRequiredMixin, ListView):
                 self.pos_friends_print += ""+self.pos_friends_print+" Reciprocate favors with your inner circle. Keep your relationships relevant."
             # strategy positive 
             if category == "OFFICE":
-                self.pos_office_print += ""+self.pos_office_print+" You don't need office hours at this point. Great Job"                                                
+                self.pos_office_print += ""+self.pos_office_print+" You don't need office hours at this point. Great Job!"                                                
         def get_avrg_impact(category):
             # gpa average
             if category == "GPA":
@@ -177,9 +183,9 @@ class Timeline(LoginRequiredMixin, ListView):
             # friends average 
             if category == "FRIENDS":
                 self.ave_friends_print += ""+self.ave_friends_print+" You have a few friends with high GPAs. Don't hesitate to make more."
-            # strategy average 
+            # office average 
             if category == "OFFICE":
-                self.ave_office_print += ""+self.ave_office_print+" We are glad you are spending time with your teacher. Keep it up."    
+                self.ave_office_print += ""+self.ave_office_print+" Keep it up, we recommend that you spend more time at the office hours."    
         def impactMetrics():
             if goals:           
                 gpa = 0
@@ -215,64 +221,84 @@ class Timeline(LoginRequiredMixin, ListView):
                             private_tutor_time += goal.sat.private_tutor_time
                         if goal.sat.have_a_strategy == True :
                             self.total_have_a_strategy += 1
-                if gpa :
+                if gpa or gpa == 0:
                     # calculate the overall GPA
-                    self.total_gpa = gpa / i
-                    if self.total_gpa < 3.0 :
-                        get_neg_impact("GPA")
-                    elif self.total_gpa >= 3.0 and self.total_gpa <= 3.5 :
-                        get_avrg_impact("GPA") 
-                    elif self.total_gpa >= 3.5 :
-                        get_pos_impact("GPA")
-                    # library hours
-                    self.total_lib_hours = library_hours / d
-                    if self.total_lib_hours < 10 and self.total_gpa < 3.0 :
-                        get_neg_impact("LIB HOURS")
-                    elif self.total_gpa >= 3.0 and self.total_gpa <= 3.5 :
-                        get_avrg_impact("LIB HOURS") 
-                    elif self.total_sat >= 3.5 and self.total_lib_hours >= 10 :
-                        get_pos_impact("LIB HOURS")           
-                    # friends_with_high_gpa
-                    self.total_friends_with_high_gpa = friends_with_high_gpa
-                    if self.total_friends_with_high_gpa <= 0 and self.total_gpa < 3.0 :
-                        get_neg_impact("FRIENDS")
-                    elif self.total_friends_with_high_gpa == 1 or self.total_friends_with_high_gpa == 2 :
-                        get_avrg_impact("FRIENDS") 
-                    elif self.total_friends_with_high_gpa > 2 :
-                        get_pos_impact("FRIENDS")
-                    # office_hours
-                    self.total_office_hours = office_hours / x
-                    if self.total_office_hours < 10 and self.total_gpa < 3.0 :
-                        get_neg_impact("OFFICE")
-                    elif self.total_gpa >= 3.0 and self.total_gpa <= 3.5 :
-                        get_avrg_impact("OFFICE") 
-                    elif self.total_gpa >= 3.5 and self.total_office_hours >= 10 :
-                        get_pos_impact("OFFICE")
-                if sat :
+                    if gpa == 0:
+                        for goal in goals:
+                            if goal.category == "GPA":
+                                self.total_gpa = 0
+                                get_neg_impact("GPA_0")
+                    else:
+                        self.total_gpa = gpa / i
+                        if self.total_gpa < 3.0 :
+                            get_neg_impact("GPA")
+                        elif self.total_gpa >= 3.0 and self.total_gpa <= 3.5 :
+                            get_avrg_impact("GPA") 
+                        elif self.total_gpa >= 3.5 :
+                            get_pos_impact("GPA")
+                        # library hours
+                        if library_hours == 0:
+                            self.total_lib_hours = 0
+                        else:
+                            self.total_lib_hours = library_hours / d
+                        if self.total_lib_hours < 10 and self.total_gpa < 3.0 :
+                            get_neg_impact("LIB HOURS")
+                        elif self.total_gpa >= 3.0 and self.total_gpa <= 3.5 :
+                            get_avrg_impact("LIB HOURS") 
+                        elif self.total_gpa >= 3.5 and self.total_lib_hours >= 10 :
+                            get_pos_impact("LIB HOURS")           
+                        # friends_with_high_gpa
+                        self.total_friends_with_high_gpa = friends_with_high_gpa
+                        if self.total_friends_with_high_gpa <= 0 and self.total_gpa < 3.0 :
+                            get_neg_impact("FRIENDS")
+                        elif self.total_friends_with_high_gpa == 1 or self.total_friends_with_high_gpa == 2 :
+                            get_avrg_impact("FRIENDS") 
+                        elif self.total_friends_with_high_gpa > 2 :
+                            get_pos_impact("FRIENDS")
+                        # office_hours
+                        if office_hours == 0:
+                            self.total_office_hours = 0
+                        else:
+                            self.total_office_hours = office_hours / x
+                        if self.total_office_hours < 10 and self.total_gpa < 3.0 :
+                            get_neg_impact("OFFICE")
+                        elif self.total_gpa >= 3.0 and self.total_gpa <= 3.5 :
+                            get_avrg_impact("OFFICE") 
+                        elif self.total_gpa >= 3.5 and self.total_office_hours >= 10 :
+                            get_pos_impact("OFFICE")
+                if sat or sat == 0:
                     # practice sat score metrics
-                    self.total_sat = sat / a
-                    if self.total_sat < 1040 :
-                        get_neg_impact("SAT")
-                    elif self.total_sat >= 1040 and self.total_sat <= 1060 :
-                        get_avrg_impact("SAT") 
-                    elif self.total_sat > 1060:
-                        get_pos_impact("SAT")
-                    # private tutor hours
-                    self.total_private_tutor_time = private_tutor_time / b
-                    if self.total_private_tutor_time < 10 and self.total_sat < 1040 :
-                        get_neg_impact("TUTOR")
-                    elif self.total_sat >= 1040 and self.total_sat <= 1060 :
-                        get_avrg_impact("TUTOR") 
-                    elif self.total_sat > 1060 and self.total_private_tutor_time >= 80 :
-                        get_pos_impact("TUTOR")
-                    # do you have a strategy
-                    if self.total_have_a_strategy >= 1 :
-                        get_pos_impact("STRATEGY")
-                    else :
-                        get_neg_impact("STRATEGY")
+                    if sat == 0:
+                        for goal in goals:
+                            if goal.category == "SAT":
+                                self.total_sat = 0
+                                get_neg_impact("SAT_0")
+                    else:
+                        self.total_sat = sat / a
+                        if self.total_sat < 1040 :
+                            get_neg_impact("SAT")
+                        elif self.total_sat >= 1040 and self.total_sat <= 1060 :
+                            get_avrg_impact("SAT") 
+                        elif self.total_sat > 1060:
+                            get_pos_impact("SAT")
+                        # private tutor hours
+                        if private_tutor_time == 0:
+                            self.total_private_tutor_time = 0
+                        else:
+                            self.total_private_tutor_time = private_tutor_time / b
+                        if self.total_private_tutor_time < 10 and self.total_sat < 1040 :
+                            get_neg_impact("TUTOR")
+                        elif self.total_sat >= 1040 and self.total_sat <= 1060 :
+                            get_avrg_impact("TUTOR") 
+                        elif self.total_sat > 1060 and self.total_private_tutor_time >= 80 :
+                            get_pos_impact("TUTOR")
+                        # do you have a strategy
+                        if self.total_have_a_strategy >= 1 :
+                            get_pos_impact("STRATEGY")
+                        else :
+                            get_neg_impact("STRATEGY")
             else:
-                return "No goals found." 
-                    
+                return "No goals found."         
         impactMetrics()          
         context['neg_impact'] = ""+self.neg_gpa_print+""+self.neg_sat_print+""
         context['pos_impact'] = ""+self.pos_gpa_print+""+self.pos_sat_print+""

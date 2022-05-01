@@ -190,7 +190,6 @@
         fetch(url)
           .then((resp) => resp.json())
           .then(function (data) {
-            console.log("Data:", data);
 
             var list = data;
             for (var i in list) {
@@ -257,7 +256,6 @@
 
       function OpenDeleteModal(item) {
         activeItem = item;
-        console.log(item);
         document.getElementById("deleteModal").style.display = "block";
       }
 
